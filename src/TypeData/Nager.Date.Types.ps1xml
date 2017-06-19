@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Types>
+  <Type>
+    <Name>System.DateTime</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>IsWeekend</Name>
+        <Script> switch ($args.Count) {
+				 # IsWeekend([System.DateTime] $dateTime, [Nager.Date.CountryCode] $countryCode)
+		 1 { [Nager.Date.Extensions.DateTimeExtension]::IsWeekend($this,$args[0]) }
+
+		 default { throw "No overload for 'IsWeekend' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Shift</Name>
+        <Script> switch ($args.Count) {
+				 # Shift([System.DateTime] $value, [System.Func`2[System.DateTime,System.DateTime]] $saturday, [System.Func`2[System.DateTime,System.DateTime]] $sunday, [System.Func`2[System.DateTime,System.DateTime]] $monday)
+		 3 { [Nager.Date.Extensions.DateTimeExtension]::Shift($this,$args[0],$args[1],$args[2]) }
+
+		 default { throw "No overload for 'Shift' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+</Types>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Types>
+  <Type>
+    <Name>System.String</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>ToMsrcID</Name>
+        <Script>
+         switch ($args.Count) {
+           0 {
+                ($this -as [datetime]).ToString("yyyy-MMM", [CultureInfo]::CreateSpecificCulture('En-US'))
+              }
+
+           default { throw "No overload for 'ToMsrcID' takes the specified number of parameters." }
+         }
+        </Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+</Types>

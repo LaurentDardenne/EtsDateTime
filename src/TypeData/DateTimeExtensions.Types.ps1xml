@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  #Duplicate name with FluentDateTime.dll
+# IsBefore([System.DateTime] $dateTime, [DateTimeExtensions.TimeOfDay.Time] $time)
+# IsAfter([System.DateTime] $dateTime, [DateTimeExtensions.TimeOfDay.Time] $time)
+# LastDayOfWeek([System.DateTime] $date, [System.DayOfWeek] $dayOfweek)
+# Round([System.DateTime] $dt, [System.TimeSpan] $interval)
+# SetTime([System.DateTime] $dateTime, [DateTimeExtensions.TimeOfDay.Time] $timeToAdd)
+# SetTime([System.DateTime] $date, [System.Int32] $hour, [System.Int32] $minute)
+# SetTime([System.DateTime] $date, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second)
+# SetTime([System.DateTime] $date, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second, [System.Int32] $millisecond)
+
+# IsHoliday and AllYearHolidays do not use 'Nager.Date.Extensions' calendars
+ -->
+ 
+<Types>
+  <Type>
+    <Name>System.DateTime</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>FirstDayOfTheMonth</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfTheMonth([System.DateTime] $date)
+		 0 { [DateTimeExtensions.GeneralDateTimeExtensions]::FirstDayOfTheMonth($this) }
+
+		 default { throw "No overload for 'FirstDayOfTheMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfTheMonth</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfTheMonth([System.DateTime] $date)
+		 0 { [DateTimeExtensions.GeneralDateTimeExtensions]::LastDayOfTheMonth($this) }
+
+		 default { throw "No overload for 'LastDayOfTheMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>NextDayOfWeek</Name>
+        <Script> switch ($args.Count) {
+				 # NextDayOfWeek([System.DateTime] $date, [System.DayOfWeek] $dayOfweek)
+		 1 { [DateTimeExtensions.GeneralDateTimeExtensions]::NextDayOfWeek($this,$args[0]) }
+
+		 default { throw "No overload for 'NextDayOfWeek' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfWeekOfTheMonth</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfWeekOfTheMonth([System.DateTime] $date, [System.DayOfWeek] $dayOfweek)
+		 1 { [DateTimeExtensions.GeneralDateTimeExtensions]::LastDayOfWeekOfTheMonth($this,$args[0]) }
+
+		 default { throw "No overload for 'LastDayOfWeekOfTheMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfWeekOfTheMonth</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfWeekOfTheMonth([System.DateTime] $date, [System.DayOfWeek] $dayOfweek)
+		 1 { [DateTimeExtensions.GeneralDateTimeExtensions]::FirstDayOfWeekOfTheMonth($this,$args[0]) }
+
+		 default { throw "No overload for 'FirstDayOfWeekOfTheMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Floor</Name>
+        <Script> switch ($args.Count) {
+				 # Floor([System.DateTime] $dt, [System.TimeSpan] $interval)
+		 1 { [DateTimeExtensions.GeneralDateTimeExtensions]::Floor($this,$args[0]) }
+
+		 default { throw "No overload for 'Floor' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Ceiling</Name>
+        <Script> switch ($args.Count) {
+				 # Ceiling([System.DateTime] $dt, [System.TimeSpan] $interval)
+		 1 { [DateTimeExtensions.GeneralDateTimeExtensions]::Ceiling($this,$args[0]) }
+
+		 default { throw "No overload for 'Ceiling' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>ToNaturalText</Name>
+        <Script> switch ($args.Count) {
+				 # ToNaturalText([System.DateTime] $fromDate, [System.DateTime] $toDate)
+		 1 { [DateTimeExtensions.NaturalTimeExtensions]::ToNaturalText($this,$args[0]) }
+
+				 # ToNaturalText([System.DateTime] $fromDate, [System.DateTime] $toDate, [System.Boolean] $round)
+		 2 { [DateTimeExtensions.NaturalTimeExtensions]::ToNaturalText($this,$args[0],$args[1]) }
+
+				 # ToNaturalText([System.DateTime] $fromDate, [System.DateTime] $toDate, [System.Boolean] $round, [DateTimeExtensions.NaturalText.INaturalTextCultureInfo] $cultureInfo)
+		 3 { [DateTimeExtensions.NaturalTimeExtensions]::ToNaturalText($this,$args[0],$args[1],$args[2]) }
+
+		 default { throw "No overload for 'ToNaturalText' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>ToExactNaturalText</Name>
+        <Script> switch ($args.Count) {
+				 # ToExactNaturalText([System.DateTime] $fromDate, [System.DateTime] $toDate)
+		 1 { [DateTimeExtensions.NaturalTimeExtensions]::ToExactNaturalText($this,$args[0]) }
+
+				 # ToExactNaturalText([System.DateTime] $fromDate, [System.DateTime] $toDate, [DateTimeExtensions.NaturalText.INaturalTextCultureInfo] $cultureInfo)
+		 2 { [DateTimeExtensions.NaturalTimeExtensions]::ToExactNaturalText($this,$args[0],$args[1]) }
+
+		 default { throw "No overload for 'ToExactNaturalText' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>GetDiff</Name>
+        <Script> switch ($args.Count) {
+				 # GetDiff([System.DateTime] $fromDate, [System.DateTime] $toDate)
+		 1 { [DateTimeExtensions.NaturalTimeExtensions]::GetDiff($this,$args[0]) }
+
+		 default { throw "No overload for 'GetDiff' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>AddTime</Name>
+        <Script> switch ($args.Count) {
+				 # AddTime([System.DateTime] $dateTime, [DateTimeExtensions.TimeOfDay.Time] $timeToAdd)
+		 1 { [DateTimeExtensions.TimeExtensions]::AddTime($this,$args[0]) }
+
+		 default { throw "No overload for 'AddTime' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>TimeOfTheDay</Name>
+        <Script> switch ($args.Count) {
+				 # TimeOfTheDay([System.DateTime] $dateTime)
+		 0 { [DateTimeExtensions.TimeExtensions]::TimeOfTheDay($this) }
+
+		 default { throw "No overload for 'TimeOfTheDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsBetween</Name>
+        <Script> switch ($args.Count) {
+				 # IsBetween([System.DateTime] $dateTime, [DateTimeExtensions.TimeOfDay.Time] $startTime, [DateTimeExtensions.TimeOfDay.Time] $endTime)
+		 2 { [DateTimeExtensions.TimeExtensions]::IsBetween($this,$args[0],$args[1]) }
+
+		 default { throw "No overload for 'IsBetween' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>AddWorkingDays</Name>
+        <Script> switch ($args.Count) {
+				 # AddWorkingDays([System.DateTime] $day, [System.Int32] $workingDays)
+		 1 { [DateTimeExtensions.WorkingDaysExtensions]::AddWorkingDays($this,$args[0]) }
+
+				 # AddWorkingDays([System.DateTime] $day, [System.Int32] $workingDays, [DateTimeExtensions.WorkingDays.IWorkingDayCultureInfo] $workingDayCultureInfo)
+		 2 { [DateTimeExtensions.WorkingDaysExtensions]::AddWorkingDays($this,$args[0],$args[1]) }
+
+		 default { throw "No overload for 'AddWorkingDays' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>GetWorkingDays</Name>
+        <Script> switch ($args.Count) {
+				 # GetWorkingDays([System.DateTime] $from, [System.DateTime] $to)
+		 1 { [DateTimeExtensions.WorkingDaysExtensions]::GetWorkingDays($this,$args[0]) }
+
+		 default { throw "No overload for 'GetWorkingDays' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsWorkingDay</Name>
+        <Script> switch ($args.Count) {
+				 # IsWorkingDay([System.DateTime] $day)
+		 0 { [DateTimeExtensions.WorkingDaysExtensions]::IsWorkingDay($this) }
+
+				 # IsWorkingDay([System.DateTime] $day, [DateTimeExtensions.WorkingDays.IWorkingDayCultureInfo] $workingDayCultureInfo)
+		 1 { [DateTimeExtensions.WorkingDaysExtensions]::IsWorkingDay($this,$args[0]) }
+
+		 default { throw "No overload for 'IsWorkingDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.String</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>ToTimeOfDay</Name>
+        <Script> switch ($args.Count) {
+				 # ToTimeOfDay([System.String] $timeValueString)
+		 0 { [DateTimeExtensions.TimeExtensions]::ToTimeOfDay($this) }
+
+		 default { throw "No overload for 'ToTimeOfDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+</Types>

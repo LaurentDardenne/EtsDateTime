@@ -1,0 +1,70 @@
+﻿environment:
+  MY_APPVEYOR_DevMyGetApiKey:
+    secure: irzUE0TW1t0PaM/FtieoJK1Uq/7ZXUw4qEUea1wX7LpwXRx1xeUTXEo4spxBVN6c
+  MY_APPVEYOR_MyGetApiKey:
+    secure: irzUE0TW1t0PaM/FtieoJK1Uq/7ZXUw4qEUea1wX7LpwXRx1xeUTXEo4spxBVN6c
+
+# Set-ItemProperty is a workaround :
+# A command that prompts the user failed because the host program or the command type does not support user interaction.
+#
+# The tasks Install et Build uses the same PS session
+install:
+  - ps: |
+          Set-ItemProperty -Name DisablePromptToUpdateHelp -Value 1 -path 'HKLM:\SOFTWARE\Microsoft\PowerShell'
+
+          PowerShell.exe -Command {
+            Install-PackageProvider Nuget -ForceBootstrap -Force > $null
+            Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+             #The version delivered with PS does not come from a repository,
+             #We force the installation from PS Gallery
+            Install-module PowershellGet -MinimumVersion 1.1.0.0 -Force -Scope AllUsers
+            Export-Clixml -InputObject $Profile -Path  $env:temp\PSProfile.xml      }
+
+nuget:
+  account_feed: true
+  project_feed: true
+
+build_script:
+   - ps: |
+
+         $Profile=Import-Clixml $env:temp\PSProfile.xml
+         Install-Module Psake  -force
+         Import-Module Psake
+
+         Write-Host "Install dependencies"
+         Invoke-Psake .\Install.psake.ps1 -parameters @{"Mode"="Install"} -nologo
+         if (-not $psake.build_success)
+         {
+            # Terminate the script to fail the build
+            $Error | Format-List * -Force
+            exit 1
+         }
+
+         Write-Host "Call Publish task. Target '$Env:MY_APPVEYOR_GalleryName'"
+         #$testResultsFile = Join-Path $pwd -ChildPath "TestResults.xml"
+
+         If ($Env:MY_APPVEYOR_GalleryName -eq 'DevMyGet')
+         { $RepositoryName='DevOttoMatt' }
+         elseIf ($Env:MY_APPVEYOR_GalleryName -eq 'MyGet')
+         { $RepositoryName='OttoMatt' }
+
+         #Invoke-PSake .\build.psake.ps1 -taskList Publish -parameters @{"TestOutputFile"=$testResultsFile;"RepositoryName"=$RepositoryName}
+         Invoke-PSake .\build.psake.ps1 -taskList Publish -parameters @{"RepositoryName"=$RepositoryName}
+         if (-not $psake.build_success)
+         {
+            # Terminate the script to fail the build
+            $Error | Format-List * -Force
+            exit 1
+         }
+        #  if ($psake.build_success -and (Test-Path $testResultsFile)) {
+        #     (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $testResultsFile)
+        #  }
+        #  else {
+        #     # Terminate the script to fail the build
+        #     $Error | Format-List * -Force
+        #     exit 1;
+        #  }
+
+
+
+

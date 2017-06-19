@@ -1,0 +1,1172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Types>
+  <Type>
+    <Name>System.Int64</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>Ticks</Name>
+        <Script> switch ($args.Count) {
+				 # Ticks([System.Int64] $ticks)
+		 0 { [FluentDate.NumberExtensions]::Ticks($this) }
+
+		 default { throw "No overload for 'Ticks' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.Int32</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>Years</Name>
+        <Script> switch ($args.Count) {
+				 # Years([System.Int32] $years)
+		 0 { [FluentDate.NumberExtensions]::Years($this) }
+
+		 default { throw "No overload for 'Years' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Quarters</Name>
+        <Script> switch ($args.Count) {
+				 # Quarters([System.Int32] $quarters)
+		 0 { [FluentDate.NumberExtensions]::Quarters($this) }
+
+		 default { throw "No overload for 'Quarters' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Months</Name>
+        <Script> switch ($args.Count) {
+				 # Months([System.Int32] $months)
+		 0 { [FluentDate.NumberExtensions]::Months($this) }
+
+		 default { throw "No overload for 'Months' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Weeks</Name>
+        <Script> switch ($args.Count) {
+				 # Weeks([System.Int32] $weeks)
+		 0 { [FluentDate.NumberExtensions]::Weeks($this) }
+
+		 default { throw "No overload for 'Weeks' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Days</Name>
+        <Script> switch ($args.Count) {
+				 # Days([System.Int32] $days)
+		 0 { [FluentDate.NumberExtensions]::Days($this) }
+
+		 default { throw "No overload for 'Days' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Hours</Name>
+        <Script> switch ($args.Count) {
+				 # Hours([System.Int32] $hours)
+		 0 { [FluentDate.NumberExtensions]::Hours($this) }
+
+		 default { throw "No overload for 'Hours' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Minutes</Name>
+        <Script> switch ($args.Count) {
+				 # Minutes([System.Int32] $minutes)
+		 0 { [FluentDate.NumberExtensions]::Minutes($this) }
+
+		 default { throw "No overload for 'Minutes' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Seconds</Name>
+        <Script> switch ($args.Count) {
+				 # Seconds([System.Int32] $seconds)
+		 0 { [FluentDate.NumberExtensions]::Seconds($this) }
+
+		 default { throw "No overload for 'Seconds' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Milliseconds</Name>
+        <Script> switch ($args.Count) {
+				 # Milliseconds([System.Int32] $milliseconds)
+		 0 { [FluentDate.NumberExtensions]::Milliseconds($this) }
+
+		 default { throw "No overload for 'Milliseconds' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Ticks</Name>
+        <Script> switch ($args.Count) {
+				 # Ticks([System.Int32] $ticks)
+		 0 { [FluentDate.NumberExtensions]::Ticks($this) }
+
+		 default { throw "No overload for 'Ticks' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.DateTimeOffset</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>EndOfDay</Name>
+        <Script> switch ($args.Count) {
+				 # EndOfDay([System.DateTimeOffset] $date)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::EndOfDay($this) }
+
+		 default { throw "No overload for 'EndOfDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>BeginningOfDay</Name>
+        <Script> switch ($args.Count) {
+				 # BeginningOfDay([System.DateTimeOffset] $date)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::BeginningOfDay($this) }
+
+		 default { throw "No overload for 'BeginningOfDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>NextYear</Name>
+        <Script> switch ($args.Count) {
+				 # NextYear([System.DateTimeOffset] $start)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::NextYear($this) }
+
+		 default { throw "No overload for 'NextYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>PreviousYear</Name>
+        <Script> switch ($args.Count) {
+				 # PreviousYear([System.DateTimeOffset] $start)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::PreviousYear($this) }
+
+		 default { throw "No overload for 'PreviousYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>NextDay</Name>
+        <Script> switch ($args.Count) {
+				 # NextDay([System.DateTimeOffset] $start)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::NextDay($this) }
+
+		 default { throw "No overload for 'NextDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>PreviousDay</Name>
+        <Script> switch ($args.Count) {
+				 # PreviousDay([System.DateTimeOffset] $start)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::PreviousDay($this) }
+
+		 default { throw "No overload for 'PreviousDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Next</Name>
+        <Script> switch ($args.Count) {
+				 # Next([System.DateTimeOffset] $start, [System.DayOfWeek] $day)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::Next($this,$args[0]) }
+
+		 default { throw "No overload for 'Next' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Previous</Name>
+        <Script> switch ($args.Count) {
+				 # Previous([System.DateTimeOffset] $start, [System.DayOfWeek] $day)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::Previous($this,$args[0]) }
+
+		 default { throw "No overload for 'Previous' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>WeekAfter</Name>
+        <Script> switch ($args.Count) {
+				 # WeekAfter([System.DateTimeOffset] $start)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::WeekAfter($this) }
+
+		 default { throw "No overload for 'WeekAfter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>WeekEarlier</Name>
+        <Script> switch ($args.Count) {
+				 # WeekEarlier([System.DateTimeOffset] $start)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::WeekEarlier($this) }
+
+		 default { throw "No overload for 'WeekEarlier' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IncreaseTime</Name>
+        <Script> switch ($args.Count) {
+				 # IncreaseTime([System.DateTimeOffset] $startDate, [System.TimeSpan] $toAdd)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::IncreaseTime($this,$args[0]) }
+
+		 default { throw "No overload for 'IncreaseTime' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>DecreaseTime</Name>
+        <Script> switch ($args.Count) {
+				 # DecreaseTime([System.DateTimeOffset] $startDate, [System.TimeSpan] $toSubtract)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::DecreaseTime($this,$args[0]) }
+
+		 default { throw "No overload for 'DecreaseTime' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetTime</Name>
+        <Script> switch ($args.Count) {
+				 # SetTime([System.DateTimeOffset] $originalDate, [System.Int32] $hour)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetTime($this,$args[0]) }
+
+				 # SetTime([System.DateTimeOffset] $originalDate, [System.Int32] $hour, [System.Int32] $minute)
+		 2 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetTime($this,$args[0],$args[1]) }
+
+				 # SetTime([System.DateTimeOffset] $originalDate, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second)
+		 3 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetTime($this,$args[0],$args[1],$args[2]) }
+
+				 # SetTime([System.DateTimeOffset] $originalDate, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second, [System.Int32] $millisecond)
+		 4 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetTime($this,$args[0],$args[1],$args[2],$args[3]) }
+
+		 default { throw "No overload for 'SetTime' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetHour</Name>
+        <Script> switch ($args.Count) {
+				 # SetHour([System.DateTimeOffset] $originalDate, [System.Int32] $hour)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetHour($this,$args[0]) }
+
+		 default { throw "No overload for 'SetHour' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetMinute</Name>
+        <Script> switch ($args.Count) {
+				 # SetMinute([System.DateTimeOffset] $originalDate, [System.Int32] $minute)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetMinute($this,$args[0]) }
+
+		 default { throw "No overload for 'SetMinute' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetSecond</Name>
+        <Script> switch ($args.Count) {
+				 # SetSecond([System.DateTimeOffset] $originalDate, [System.Int32] $second)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetSecond($this,$args[0]) }
+
+		 default { throw "No overload for 'SetSecond' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetMillisecond</Name>
+        <Script> switch ($args.Count) {
+				 # SetMillisecond([System.DateTimeOffset] $originalDate, [System.Int32] $millisecond)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetMillisecond($this,$args[0]) }
+
+		 default { throw "No overload for 'SetMillisecond' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Midnight</Name>
+        <Script> switch ($args.Count) {
+				 # Midnight([System.DateTimeOffset] $value)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::Midnight($this) }
+
+		 default { throw "No overload for 'Midnight' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Noon</Name>
+        <Script> switch ($args.Count) {
+				 # Noon([System.DateTimeOffset] $value)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::Noon($this) }
+
+		 default { throw "No overload for 'Noon' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetDate</Name>
+        <Script> switch ($args.Count) {
+				 # SetDate([System.DateTimeOffset] $value, [System.Int32] $year)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetDate($this,$args[0]) }
+
+				 # SetDate([System.DateTimeOffset] $value, [System.Int32] $year, [System.Int32] $month)
+		 2 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetDate($this,$args[0],$args[1]) }
+
+				 # SetDate([System.DateTimeOffset] $value, [System.Int32] $year, [System.Int32] $month, [System.Int32] $day)
+		 3 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetDate($this,$args[0],$args[1],$args[2]) }
+
+		 default { throw "No overload for 'SetDate' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetYear</Name>
+        <Script> switch ($args.Count) {
+				 # SetYear([System.DateTimeOffset] $value, [System.Int32] $year)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetYear($this,$args[0]) }
+
+		 default { throw "No overload for 'SetYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetMonth</Name>
+        <Script> switch ($args.Count) {
+				 # SetMonth([System.DateTimeOffset] $value, [System.Int32] $month)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetMonth($this,$args[0]) }
+
+		 default { throw "No overload for 'SetMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetDay</Name>
+        <Script> switch ($args.Count) {
+				 # SetDay([System.DateTimeOffset] $value, [System.Int32] $day)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SetDay($this,$args[0]) }
+
+		 default { throw "No overload for 'SetDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsBefore</Name>
+        <Script> switch ($args.Count) {
+				 # IsBefore([System.DateTimeOffset] $current, [System.DateTimeOffset] $toCompareWith)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::IsBefore($this,$args[0]) }
+
+		 default { throw "No overload for 'IsBefore' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsAfter</Name>
+        <Script> switch ($args.Count) {
+				 # IsAfter([System.DateTimeOffset] $current, [System.DateTimeOffset] $toCompareWith)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::IsAfter($this,$args[0]) }
+
+		 default { throw "No overload for 'IsAfter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>At</Name>
+        <Script> switch ($args.Count) {
+				 # At([System.DateTimeOffset] $current, [System.Int32] $hour, [System.Int32] $minute)
+		 2 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::At($this,$args[0],$args[1]) }
+
+				 # At([System.DateTimeOffset] $current, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second)
+		 3 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::At($this,$args[0],$args[1],$args[2]) }
+
+				 # At([System.DateTimeOffset] $current, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second, [System.Int32] $milliseconds)
+		 4 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::At($this,$args[0],$args[1],$args[2],$args[3]) }
+
+		 default { throw "No overload for 'At' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfQuarter</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfQuarter([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::FirstDayOfQuarter($this) }
+
+		 default { throw "No overload for 'FirstDayOfQuarter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfMonth</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfMonth([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::FirstDayOfMonth($this) }
+
+		 default { throw "No overload for 'FirstDayOfMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfQuarter</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfQuarter([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::LastDayOfQuarter($this) }
+
+		 default { throw "No overload for 'LastDayOfQuarter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfMonth</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfMonth([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::LastDayOfMonth($this) }
+
+		 default { throw "No overload for 'LastDayOfMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>AddBusinessDays</Name>
+        <Script> switch ($args.Count) {
+				 # AddBusinessDays([System.DateTimeOffset] $current, [System.Int32] $days)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::AddBusinessDays($this,$args[0]) }
+
+		 default { throw "No overload for 'AddBusinessDays' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SubtractBusinessDays</Name>
+        <Script> switch ($args.Count) {
+				 # SubtractBusinessDays([System.DateTimeOffset] $current, [System.Int32] $days)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SubtractBusinessDays($this,$args[0]) }
+
+		 default { throw "No overload for 'SubtractBusinessDays' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsInFuture</Name>
+        <Script> switch ($args.Count) {
+				 # IsInFuture([System.DateTimeOffset] $dateTime)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::IsInFuture($this) }
+
+		 default { throw "No overload for 'IsInFuture' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsInPast</Name>
+        <Script> switch ($args.Count) {
+				 # IsInPast([System.DateTimeOffset] $dateTime)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::IsInPast($this) }
+
+		 default { throw "No overload for 'IsInPast' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Round</Name>
+        <Script> switch ($args.Count) {
+				 # Round([System.DateTimeOffset] $dateTime, [FluentDate.RoundTo] $rt)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::Round($this,$args[0]) }
+
+		 default { throw "No overload for 'Round' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfWeek</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfWeek([System.DateTimeOffset] $dateTime)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::FirstDayOfWeek($this) }
+
+		 default { throw "No overload for 'FirstDayOfWeek' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>StartOfWeek</Name>
+        <Script> switch ($args.Count) {
+				 # StartOfWeek([System.DateTimeOffset] $dateTime)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::StartOfWeek($this) }
+
+		 default { throw "No overload for 'StartOfWeek' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfYear</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfYear([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::FirstDayOfYear($this) }
+
+		 default { throw "No overload for 'FirstDayOfYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfWeek</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfWeek([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::LastDayOfWeek($this) }
+
+		 default { throw "No overload for 'LastDayOfWeek' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfYear</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfYear([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::LastDayOfYear($this) }
+
+		 default { throw "No overload for 'LastDayOfYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>PreviousMonth</Name>
+        <Script> switch ($args.Count) {
+				 # PreviousMonth([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::PreviousMonth($this) }
+
+		 default { throw "No overload for 'PreviousMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>NextMonth</Name>
+        <Script> switch ($args.Count) {
+				 # NextMonth([System.DateTimeOffset] $current)
+		 0 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::NextMonth($this) }
+
+		 default { throw "No overload for 'NextMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SameDay</Name>
+        <Script> switch ($args.Count) {
+				 # SameDay([System.DateTimeOffset] $current, [System.DateTimeOffset] $date)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SameDay($this,$args[0]) }
+
+		 default { throw "No overload for 'SameDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SameMonth</Name>
+        <Script> switch ($args.Count) {
+				 # SameMonth([System.DateTimeOffset] $current, [System.DateTimeOffset] $date)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SameMonth($this,$args[0]) }
+
+		 default { throw "No overload for 'SameMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SameYear</Name>
+        <Script> switch ($args.Count) {
+				 # SameYear([System.DateTimeOffset] $current, [System.DateTimeOffset] $date)
+		 1 { [FluentDateTimeOffset.DateTimeOffsetExtensions]::SameYear($this,$args[0]) }
+
+		 default { throw "No overload for 'SameYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+  <Type>
+    <Name>FluentDate.FluentTimeSpan</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>Ago</Name>
+        <Script> switch ($args.Count) {
+				 # Ago([FluentDate.FluentTimeSpan] $from)
+		 0 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Ago($this) }
+
+				 # Ago([FluentDate.FluentTimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Ago($this,$args[0]) }
+
+		 default { throw "No overload for 'Ago' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Before</Name>
+        <Script> switch ($args.Count) {
+				 # Before([FluentDate.FluentTimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Before($this,$args[0]) }
+
+		 default { throw "No overload for 'Before' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FromNow</Name>
+        <Script> switch ($args.Count) {
+				 # FromNow([FluentDate.FluentTimeSpan] $from)
+		 0 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::FromNow($this) }
+
+		 default { throw "No overload for 'FromNow' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>From</Name>
+        <Script> switch ($args.Count) {
+				 # From([FluentDate.FluentTimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::From($this,$args[0]) }
+
+		 default { throw "No overload for 'From' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Since</Name>
+        <Script> switch ($args.Count) {
+				 # Since([FluentDate.FluentTimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Since($this,$args[0]) }
+
+		 default { throw "No overload for 'Since' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>ToDisplayString</Name>
+        <Script> switch ($args.Count) {
+				 # ToDisplayString([FluentDate.FluentTimeSpan] $timeSpan)
+		 0 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::ToDisplayString($this) }
+
+		 default { throw "No overload for 'ToDisplayString' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.DateTime</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>EndOfDay</Name>
+        <Script> switch ($args.Count) {
+				 # EndOfDay([System.DateTime] $date)
+		 0 { [FluentDateTime.DateTimeExtensions]::EndOfDay($this) }
+
+				 # EndOfDay([System.DateTime] $date, [System.Int32] $timeZoneOffset)
+		 1 { [FluentDateTime.DateTimeExtensions]::EndOfDay($this,$args[0]) }
+
+		 default { throw "No overload for 'EndOfDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>BeginningOfDay</Name>
+        <Script> switch ($args.Count) {
+				 # BeginningOfDay([System.DateTime] $date)
+		 0 { [FluentDateTime.DateTimeExtensions]::BeginningOfDay($this) }
+
+				 # BeginningOfDay([System.DateTime] $date, [System.Int32] $timezoneOffset)
+		 1 { [FluentDateTime.DateTimeExtensions]::BeginningOfDay($this,$args[0]) }
+
+		 default { throw "No overload for 'BeginningOfDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>NextYear</Name>
+        <Script> switch ($args.Count) {
+				 # NextYear([System.DateTime] $start)
+		 0 { [FluentDateTime.DateTimeExtensions]::NextYear($this) }
+
+		 default { throw "No overload for 'NextYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>PreviousYear</Name>
+        <Script> switch ($args.Count) {
+				 # PreviousYear([System.DateTime] $start)
+		 0 { [FluentDateTime.DateTimeExtensions]::PreviousYear($this) }
+
+		 default { throw "No overload for 'PreviousYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>NextDay</Name>
+        <Script> switch ($args.Count) {
+				 # NextDay([System.DateTime] $start)
+		 0 { [FluentDateTime.DateTimeExtensions]::NextDay($this) }
+
+		 default { throw "No overload for 'NextDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>PreviousDay</Name>
+        <Script> switch ($args.Count) {
+				 # PreviousDay([System.DateTime] $start)
+		 0 { [FluentDateTime.DateTimeExtensions]::PreviousDay($this) }
+
+		 default { throw "No overload for 'PreviousDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Next</Name>
+        <Script> switch ($args.Count) {
+				 # Next([System.DateTime] $start, [System.DayOfWeek] $day)
+		 1 { [FluentDateTime.DateTimeExtensions]::Next($this,$args[0]) }
+
+		 default { throw "No overload for 'Next' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Previous</Name>
+        <Script> switch ($args.Count) {
+				 # Previous([System.DateTime] $start, [System.DayOfWeek] $day)
+		 1 { [FluentDateTime.DateTimeExtensions]::Previous($this,$args[0]) }
+
+		 default { throw "No overload for 'Previous' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>WeekAfter</Name>
+        <Script> switch ($args.Count) {
+				 # WeekAfter([System.DateTime] $start)
+		 0 { [FluentDateTime.DateTimeExtensions]::WeekAfter($this) }
+
+		 default { throw "No overload for 'WeekAfter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>WeekEarlier</Name>
+        <Script> switch ($args.Count) {
+				 # WeekEarlier([System.DateTime] $start)
+		 0 { [FluentDateTime.DateTimeExtensions]::WeekEarlier($this) }
+
+		 default { throw "No overload for 'WeekEarlier' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IncreaseTime</Name>
+        <Script> switch ($args.Count) {
+				 # IncreaseTime([System.DateTime] $startDate, [System.TimeSpan] $toAdd)
+		 1 { [FluentDateTime.DateTimeExtensions]::IncreaseTime($this,$args[0]) }
+
+		 default { throw "No overload for 'IncreaseTime' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>DecreaseTime</Name>
+        <Script> switch ($args.Count) {
+				 # DecreaseTime([System.DateTime] $startDate, [System.TimeSpan] $toSubtract)
+		 1 { [FluentDateTime.DateTimeExtensions]::DecreaseTime($this,$args[0]) }
+
+		 default { throw "No overload for 'DecreaseTime' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetTime</Name>
+        <Script> switch ($args.Count) {
+				 # SetTime([System.DateTime] $originalDate, [System.Int32] $hour)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetTime($this,$args[0]) }
+
+				 # SetTime([System.DateTime] $originalDate, [System.Int32] $hour, [System.Int32] $minute)
+		 2 { [FluentDateTime.DateTimeExtensions]::SetTime($this,$args[0],$args[1]) }
+
+				 # SetTime([System.DateTime] $originalDate, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second)
+		 3 { [FluentDateTime.DateTimeExtensions]::SetTime($this,$args[0],$args[1],$args[2]) }
+
+				 # SetTime([System.DateTime] $originalDate, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second, [System.Int32] $millisecond)
+		 4 { [FluentDateTime.DateTimeExtensions]::SetTime($this,$args[0],$args[1],$args[2],$args[3]) }
+
+		 default { throw "No overload for 'SetTime' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetHour</Name>
+        <Script> switch ($args.Count) {
+				 # SetHour([System.DateTime] $originalDate, [System.Int32] $hour)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetHour($this,$args[0]) }
+
+		 default { throw "No overload for 'SetHour' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetMinute</Name>
+        <Script> switch ($args.Count) {
+				 # SetMinute([System.DateTime] $originalDate, [System.Int32] $minute)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetMinute($this,$args[0]) }
+
+		 default { throw "No overload for 'SetMinute' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetSecond</Name>
+        <Script> switch ($args.Count) {
+				 # SetSecond([System.DateTime] $originalDate, [System.Int32] $second)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetSecond($this,$args[0]) }
+
+		 default { throw "No overload for 'SetSecond' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetMillisecond</Name>
+        <Script> switch ($args.Count) {
+				 # SetMillisecond([System.DateTime] $originalDate, [System.Int32] $millisecond)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetMillisecond($this,$args[0]) }
+
+		 default { throw "No overload for 'SetMillisecond' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Midnight</Name>
+        <Script> switch ($args.Count) {
+				 # Midnight([System.DateTime] $value)
+		 0 { [FluentDateTime.DateTimeExtensions]::Midnight($this) }
+
+		 default { throw "No overload for 'Midnight' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Noon</Name>
+        <Script> switch ($args.Count) {
+				 # Noon([System.DateTime] $value)
+		 0 { [FluentDateTime.DateTimeExtensions]::Noon($this) }
+
+		 default { throw "No overload for 'Noon' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetDate</Name>
+        <Script> switch ($args.Count) {
+				 # SetDate([System.DateTime] $value, [System.Int32] $year)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetDate($this,$args[0]) }
+
+				 # SetDate([System.DateTime] $value, [System.Int32] $year, [System.Int32] $month)
+		 2 { [FluentDateTime.DateTimeExtensions]::SetDate($this,$args[0],$args[1]) }
+
+				 # SetDate([System.DateTime] $value, [System.Int32] $year, [System.Int32] $month, [System.Int32] $day)
+		 3 { [FluentDateTime.DateTimeExtensions]::SetDate($this,$args[0],$args[1],$args[2]) }
+
+		 default { throw "No overload for 'SetDate' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetYear</Name>
+        <Script> switch ($args.Count) {
+				 # SetYear([System.DateTime] $value, [System.Int32] $year)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetYear($this,$args[0]) }
+
+		 default { throw "No overload for 'SetYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetMonth</Name>
+        <Script> switch ($args.Count) {
+				 # SetMonth([System.DateTime] $value, [System.Int32] $month)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetMonth($this,$args[0]) }
+
+		 default { throw "No overload for 'SetMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SetDay</Name>
+        <Script> switch ($args.Count) {
+				 # SetDay([System.DateTime] $value, [System.Int32] $day)
+		 1 { [FluentDateTime.DateTimeExtensions]::SetDay($this,$args[0]) }
+
+		 default { throw "No overload for 'SetDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsBefore</Name>
+        <Script> switch ($args.Count) {
+				 # IsBefore([System.DateTime] $current, [System.DateTime] $toCompareWith)
+		 1 { [FluentDateTime.DateTimeExtensions]::IsBefore($this,$args[0]) }
+
+		 default { throw "No overload for 'IsBefore' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsAfter</Name>
+        <Script> switch ($args.Count) {
+				 # IsAfter([System.DateTime] $current, [System.DateTime] $toCompareWith)
+		 1 { [FluentDateTime.DateTimeExtensions]::IsAfter($this,$args[0]) }
+
+		 default { throw "No overload for 'IsAfter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>At</Name>
+        <Script> switch ($args.Count) {
+				 # At([System.DateTime] $current, [System.Int32] $hour, [System.Int32] $minute)
+		 2 { [FluentDateTime.DateTimeExtensions]::At($this,$args[0],$args[1]) }
+
+				 # At([System.DateTime] $current, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second)
+		 3 { [FluentDateTime.DateTimeExtensions]::At($this,$args[0],$args[1],$args[2]) }
+
+				 # At([System.DateTime] $current, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second, [System.Int32] $milliseconds)
+		 4 { [FluentDateTime.DateTimeExtensions]::At($this,$args[0],$args[1],$args[2],$args[3]) }
+
+		 default { throw "No overload for 'At' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfQuarter</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfQuarter([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::FirstDayOfQuarter($this) }
+
+		 default { throw "No overload for 'FirstDayOfQuarter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfMonth</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfMonth([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::FirstDayOfMonth($this) }
+
+		 default { throw "No overload for 'FirstDayOfMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfQuarter</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfQuarter([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::LastDayOfQuarter($this) }
+
+		 default { throw "No overload for 'LastDayOfQuarter' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfMonth</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfMonth([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::LastDayOfMonth($this) }
+
+		 default { throw "No overload for 'LastDayOfMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>AddBusinessDays</Name>
+        <Script> switch ($args.Count) {
+				 # AddBusinessDays([System.DateTime] $current, [System.Int32] $days)
+		 1 { [FluentDateTime.DateTimeExtensions]::AddBusinessDays($this,$args[0]) }
+
+		 default { throw "No overload for 'AddBusinessDays' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SubtractBusinessDays</Name>
+        <Script> switch ($args.Count) {
+				 # SubtractBusinessDays([System.DateTime] $current, [System.Int32] $days)
+		 1 { [FluentDateTime.DateTimeExtensions]::SubtractBusinessDays($this,$args[0]) }
+
+		 default { throw "No overload for 'SubtractBusinessDays' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsInFuture</Name>
+        <Script> switch ($args.Count) {
+				 # IsInFuture([System.DateTime] $dateTime)
+		 0 { [FluentDateTime.DateTimeExtensions]::IsInFuture($this) }
+
+		 default { throw "No overload for 'IsInFuture' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>IsInPast</Name>
+        <Script> switch ($args.Count) {
+				 # IsInPast([System.DateTime] $dateTime)
+		 0 { [FluentDateTime.DateTimeExtensions]::IsInPast($this) }
+
+		 default { throw "No overload for 'IsInPast' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Round</Name>
+        <Script> switch ($args.Count) {
+				 # Round([System.DateTime] $dateTime, [FluentDate.RoundTo] $rt)
+		 1 { [FluentDateTime.DateTimeExtensions]::Round($this,$args[0]) }
+
+		 default { throw "No overload for 'Round' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfWeek</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfWeek([System.DateTime] $dateTime)
+		 0 { [FluentDateTime.DateTimeExtensions]::FirstDayOfWeek($this) }
+
+		 default { throw "No overload for 'FirstDayOfWeek' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>StartOfWeek</Name>
+        <Script> switch ($args.Count) {
+				 # StartOfWeek([System.DateTime] $dateTime)
+		 0 { [FluentDateTime.DateTimeExtensions]::StartOfWeek($this) }
+
+		 default { throw "No overload for 'StartOfWeek' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FirstDayOfYear</Name>
+        <Script> switch ($args.Count) {
+				 # FirstDayOfYear([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::FirstDayOfYear($this) }
+
+		 default { throw "No overload for 'FirstDayOfYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfWeek</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfWeek([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::LastDayOfWeek($this) }
+
+		 default { throw "No overload for 'LastDayOfWeek' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>LastDayOfYear</Name>
+        <Script> switch ($args.Count) {
+				 # LastDayOfYear([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::LastDayOfYear($this) }
+
+		 default { throw "No overload for 'LastDayOfYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>PreviousMonth</Name>
+        <Script> switch ($args.Count) {
+				 # PreviousMonth([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::PreviousMonth($this) }
+
+		 default { throw "No overload for 'PreviousMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>NextMonth</Name>
+        <Script> switch ($args.Count) {
+				 # NextMonth([System.DateTime] $current)
+		 0 { [FluentDateTime.DateTimeExtensions]::NextMonth($this) }
+
+		 default { throw "No overload for 'NextMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SameDay</Name>
+        <Script> switch ($args.Count) {
+				 # SameDay([System.DateTime] $current, [System.DateTime] $date)
+		 1 { [FluentDateTime.DateTimeExtensions]::SameDay($this,$args[0]) }
+
+		 default { throw "No overload for 'SameDay' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SameMonth</Name>
+        <Script> switch ($args.Count) {
+				 # SameMonth([System.DateTime] $current, [System.DateTime] $date)
+		 1 { [FluentDateTime.DateTimeExtensions]::SameMonth($this,$args[0]) }
+
+		 default { throw "No overload for 'SameMonth' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>SameYear</Name>
+        <Script> switch ($args.Count) {
+				 # SameYear([System.DateTime] $current, [System.DateTime] $date)
+		 1 { [FluentDateTime.DateTimeExtensions]::SameYear($this,$args[0]) }
+
+		 default { throw "No overload for 'SameYear' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.TimeSpan</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>Ago</Name>
+        <Script> switch ($args.Count) {
+				 # Ago([System.TimeSpan] $from)
+		 0 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Ago($this) }
+
+				 # Ago([System.TimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Ago($this,$args[0]) }
+
+		 default { throw "No overload for 'Ago' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Before</Name>
+        <Script> switch ($args.Count) {
+				 # Before([System.TimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Before($this,$args[0]) }
+
+		 default { throw "No overload for 'Before' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>FromNow</Name>
+        <Script> switch ($args.Count) {
+				 # FromNow([System.TimeSpan] $from)
+		 0 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::FromNow($this) }
+
+		 default { throw "No overload for 'FromNow' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>From</Name>
+        <Script> switch ($args.Count) {
+				 # From([System.TimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::From($this,$args[0]) }
+
+		 default { throw "No overload for 'From' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Since</Name>
+        <Script> switch ($args.Count) {
+				 # Since([System.TimeSpan] $from, [System.DateTimeOffset] $originalValue)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Since($this,$args[0]) }
+
+		 default { throw "No overload for 'Since' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>ToDisplayString</Name>
+        <Script> switch ($args.Count) {
+				 # ToDisplayString([System.TimeSpan] $timeSpan)
+		 0 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::ToDisplayString($this) }
+
+		 default { throw "No overload for 'ToDisplayString' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Round</Name>
+        <Script> switch ($args.Count) {
+				 # Round([System.TimeSpan] $timeSpan, [FluentDate.RoundTo] $rt)
+		 1 { [FluentDateTimeOffset.TimeSpanOffsetExtensions]::Round($this,$args[0]) }
+
+		 default { throw "No overload for 'Round' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.Double</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>Weeks</Name>
+        <Script> switch ($args.Count) {
+				 # Weeks([System.Double] $weeks)
+		 0 { [FluentDate.NumberExtensions]::Weeks($this) }
+
+		 default { throw "No overload for 'Weeks' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Days</Name>
+        <Script> switch ($args.Count) {
+				 # Days([System.Double] $days)
+		 0 { [FluentDate.NumberExtensions]::Days($this) }
+
+		 default { throw "No overload for 'Days' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Hours</Name>
+        <Script> switch ($args.Count) {
+				 # Hours([System.Double] $hours)
+		 0 { [FluentDate.NumberExtensions]::Hours($this) }
+
+		 default { throw "No overload for 'Hours' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Minutes</Name>
+        <Script> switch ($args.Count) {
+				 # Minutes([System.Double] $minutes)
+		 0 { [FluentDate.NumberExtensions]::Minutes($this) }
+
+		 default { throw "No overload for 'Minutes' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Seconds</Name>
+        <Script> switch ($args.Count) {
+				 # Seconds([System.Double] $seconds)
+		 0 { [FluentDate.NumberExtensions]::Seconds($this) }
+
+		 default { throw "No overload for 'Seconds' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+      <ScriptMethod>
+        <Name>Milliseconds</Name>
+        <Script> switch ($args.Count) {
+				 # Milliseconds([System.Double] $milliseconds)
+		 0 { [FluentDate.NumberExtensions]::Milliseconds($this) }
+
+		 default { throw "No overload for 'Milliseconds' takes the specified number of parameters." }
+ }</Script>
+      </ScriptMethod>
+    </Members>
+  </Type>
+</Types>
