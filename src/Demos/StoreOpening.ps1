@@ -1,4 +1,76 @@
-﻿#DateAddSample
+﻿#Heure d'ouverture
+
+# Fermé Dimanche et Lundi
+# Fermé les jours férié français (par défaut, pas par département). Date fixe et mobile
+# Mardi..Vendredi :  HeureDebut="8:00:00" HeureFin="20:00:00" Samedi HeureDebut="8:00:00" HeureFin="14:00:00"
+
+# I'm trying to understand how to schedule 20 hours of work.
+
+# I've use CalendarDateAdd to find the start and the end time assuming working hours of 8-16 Monday-Friday. So far so good.
+
+# My question, is how can I figure out the scheduled periods?
+# - 1 day, 8 hours (8-16)
+# - 1 day, 8 hours (8-16)
+# - 1 day, 4 hours (8-12)
+
+# I tried the CalendarPeriodCollector, however it returns 3 days of 8 hours...
+# There a three steps to calculate the scheduled periods:
+# 1. calculate the scheduling end moment using CalendarDateAdd: result is DateTime
+# 2. determine the scheduling days using CalendarPeriodCollector: ITimePeriodCollection
+# 3. determine the scheduling days using TimePeriodIntersector: ITimePeriodCollection
+
+
+Function CalendarPeriodCollectorSample{
+  $start = [Itenso.TimePeriod.Now]::Week([DayOfWeek]::Monday)
+  $periods = GetSchedulingPeriods $start ([TimeSpan]::FromHours(20))
+  foreach ($period in $periods)
+  {
+    "Period: " + $period
+  }
+} 
+ 
+function GetSchedulingPeriods([DateTime] $start, [TimeSpan] $offset)
+{
+  #const 
+  [int] $workDayStart = 8
+  [int] $workDayEnd = 16
+
+  $calendar = new-object Itenso.TimePeriod.TimeCalendar(
+    (New-Object Itenso.TimePeriod.TimeCalendarConfig -Property @{'EndOffset' = [TimeSpan]::Zero})
+  )
+ 
+  # calculate schedule end time
+  $calendarDateAdd = New-Object Itenso.TimePeriod.CalendarDateAdd($calendar)
+  $calendarDateAdd.AddWorkingWeekDays()
+  $calendarDateAdd.WorkingDayHours.Add((New-Object Itenso.TimePeriod.DayHourRange([DayOfWeek]::Monday, $workDayStart, $workDayEnd)))
+  $calendarDateAdd.WorkingDayHours.Add((New-Object Itenso.TimePeriod.DayHourRange([DayOfWeek]::Tuesday, $workDayStart, $workDayEnd)))
+  $calendarDateAdd.WorkingDayHours.Add((New-Object Itenso.TimePeriod.DayHourRange([DayOfWeek]::Wednesday, $workDayStart,$workDayEnd)))
+  $calendarDateAdd.WorkingDayHours.Add((New-Object Itenso.TimePeriod.DayHourRange([DayOfWeek]::Thursday, $workDayStart, $workDayEnd)))
+  $calendarDateAdd.WorkingDayHours.Add((New-Object Itenso.TimePeriod.DayHourRange([DayOfWeek]::Friday, $workDayStart, $workDayEnd)))  #DateTime? 
+  $end = $calendarDateAdd.Add($start, $offset,[Itenso.TimePeriod.SeekBoundaryMode]::Next )
+  if ($null -eq $end)
+  {
+    return $null
+  }
+ 
+  #get scheduling days
+  $filter = New-Object Itenso.TimePeriod.CalendarPeriodCollectorFilter
+  $filter.AddWorkingWeekDays()
+  $filter.CollectingHours.Add((New-Object Itenso.TimePeriod.HourRange($workDayStart, $workDayEnd)))
+  $schedulePeriod = New-Object Itenso.TimePeriod.CalendarTimeRange($start, $end.AddDays(1));
+  $collector = New-Object Itenso.TimePeriod.CalendarPeriodCollector($filter, $schedulePeriod, [Itenso.TimePeriod.SeekDirection]::Forward, $calendar)
+  $collector.CollectHours()
+  $collector.Periods.Add((New-Object Itenso.TimePeriod.TimeRange($start, $end.Value)))
+ 
+  #get scheduling hours
+  $periodIntersector = New-Object 'Itenso.TimePeriod.TimePeriodIntersector[Itenso.TimePeriod.TimeRange]'
+  return $periodIntersector.IntersectPeriods($collector.Periods)
+} 
+
+
+
+#DateAddSample
+
 
 $DateAdd = New-Object Itenso.TimePeriod.DateAdd
 
@@ -93,5 +165,5 @@ $filter.Months.Add( [DateTime]::Now.ToString("MMMM", [CultureInfo]::InvariantCul
 $filter.AddWorkingWeekDays()
 $filter.WeekDays.Add([System.DayOfWeek]::Saturday)
 $filter.WeekDays.Remove([System.DayOfWeek]::Monday) > $null
-#todo $filter.ExcludePeriods.Add(
-# Exclusion basé sur Itenso.TimePeriod, quelle classe ?
+
+#todo Exclusion basé sur Itenso.TimePeriod, quelle classe ?

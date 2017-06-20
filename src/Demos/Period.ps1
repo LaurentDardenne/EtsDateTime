@@ -27,7 +27,3 @@ $date2 = New-Object DateTime( 2011, 3, 20, 19, 55, 28 )
 
 $dateDiff = New-Object Itenso.TimePeriod.DateDiff($date1, $date2 )
 "DateDiff.GetDescription(6): {0}" -F, $dateDiff.GetDescription(6)
-
-#todo
-#Cycle
-# je dois garder une routine d'archive de ficher, type : 1/j pendant 1 semaine, 1/semaine pendant 1 mois, 1/mois pendant 1an, etc
