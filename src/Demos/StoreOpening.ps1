@@ -22,14 +22,25 @@
 
 Function CalendarPeriodCollectorSample{
   $start = [Itenso.TimePeriod.Now]::Week([DayOfWeek]::Monday)
-  $periods = GetSchedulingPeriods $start ([TimeSpan]::FromHours(20))
+  $Collector = GetCollector $start ([TimeSpan]::FromHours(20))
+  $periods = GetSchedulingPeriods $Collector
+  foreach ($period in $periods)
+  {
+    "Period: " + $period
+  }
+} 
+Function CalendarPeriodCollectorSample2{
+  param([int]$hours=20)
+  $start = [Itenso.TimePeriod.Now]::Week([DayOfWeek]::Monday)
+  $Collector = GetCollector $start ([TimeSpan]::FromHours($Hours))
+  $periods = GetSchedulingPeriods $Collector
   foreach ($period in $periods)
   {
     "Period: " + $period
   }
 } 
  
-function GetSchedulingPeriods([DateTime] $start, [TimeSpan] $offset)
+function GetCollector([DateTime] $start, [TimeSpan] $offset)
 {
   #const 
   [int] $workDayStart = 8
@@ -60,13 +71,15 @@ function GetSchedulingPeriods([DateTime] $start, [TimeSpan] $offset)
   $schedulePeriod = New-Object Itenso.TimePeriod.CalendarTimeRange($start, $end.AddDays(1));
   $collector = New-Object Itenso.TimePeriod.CalendarPeriodCollector($filter, $schedulePeriod, [Itenso.TimePeriod.SeekDirection]::Forward, $calendar)
   $collector.CollectHours()
-  $collector.Periods.Add((New-Object Itenso.TimePeriod.TimeRange($start, $end.Value)))
- 
+  $collector.Periods.Add((New-Object Itenso.TimePeriod.TimeRange($start, $end)))
+  return $collector
+} 
+function GetSchedulingPeriods([ Itenso.TimePeriod.CalendarPeriodCollector]$Collector)
+{
   #get scheduling hours
   $periodIntersector = New-Object 'Itenso.TimePeriod.TimePeriodIntersector[Itenso.TimePeriod.TimeRange]'
   return $periodIntersector.IntersectPeriods($collector.Periods)
 } 
-
 
 
 #DateAddSample
