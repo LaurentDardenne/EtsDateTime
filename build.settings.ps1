@@ -101,13 +101,13 @@ function Test-BOMFile{
         ForEach-Object  {
         Write-Verbose "Test BOM for '$($_.FullName)'"
         # create storage object
-        $EncodingInfo = 1 | Select FileName,Encoding,BomFound,Endian
+        $EncodingInfo = 1 | Select-Object FileName,Encoding,BomFound,Endian
         # store file base name (remove extension so easier to read)
         $EncodingInfo.FileName = $_.FullName
         # get full encoding object
         $Encoding = Get-DTWFileEncoding $_.FullName
         # store encoding type name
-        $EncodingInfo.Encoding = $EncodingTypeName = $Encoding.ToString().SubString($Encoding.ToString().LastIndexOf(".") + 1)
+        $EncodingInfo.Encoding = $Encoding.ToString().SubString($Encoding.ToString().LastIndexOf(".") + 1)
         # store whether or not BOM found
         $EncodingInfo.BomFound = "$($Encoding.GetPreamble())" -ne ""
         $EncodingInfo.Endian = ""
