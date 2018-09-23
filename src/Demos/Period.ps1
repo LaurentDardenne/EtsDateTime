@@ -4,15 +4,9 @@
 # https://www.codeproject.com/Articles/168662/Time-Period-Library-for-NET
 # Source : https://github.com/Giannoudis/TimePeriodLibrary
 
-#todo
-# pendant 15 jours durée (suis-je dans cette période ?)
-# tout les 15 jours fréquence/périodicité
-# avant 15 jours (date expiration ?)
-# Après  15 jours (délai ?)
-# 
-#     #DateTimeOffset
-#     #Représente un instant précis, généralement exprimé sous la forme d'une date et d'une heure, 
-#     #par rapport au temps universel (UTC, Universal Time Coordinated).
+# DateTimeOffset
+#  Représente un instant précis, généralement exprimé sous la forme d'une date et d'une heure, 
+#  par rapport au temps universel (UTC, Universal Time Coordinated).
 
 $d1=new-object DateTime( 2011, 2, 22, 14, 0, 0 )
 $d2=new-object DateTime( 2011, 2, 22, 18, 0, 0 ) 

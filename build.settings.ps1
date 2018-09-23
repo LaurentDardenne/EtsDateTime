@@ -213,17 +213,6 @@ Function Find-ExternalModuleDependencies {
  }
 }
 
-function Import-ManifestData {
- #Read a .psd1 into a hashtable
-    [CmdletBinding()]
-    Param (
-        [Parameter(Mandatory = $true)]
-        [Microsoft.PowerShell.DesiredStateConfiguration.ArgumentToConfigurationDataTransformation()]
-        $Data
-    )
-    return $Data
-}
-
 Function Read-ModuleDependency {
 #Reads a module manifest and returns the contents of the RequiredModules key.
 # todo read NestedModules :
@@ -238,68 +227,59 @@ Function Read-ModuleDependency {
 
    Param (
      [Parameter(Mandatory = $true)]
-     $Data,
-
-     [switch] $AsHashTable,
-
-     [switch] $AsModuleSpecification
+     [string] $ManifestPath
   )
 
- try {
-  $ErrorActionPreference='Stop'
-  $Manifest=Import-ManifestData $Data
- } catch {
-     throw (New-Object System.Exception -ArgumentList "Unable to read the manifest $Data",$_.Exception)
- }
- if (($Manifest.RequiredModules -eq $null) -or ($Manifest.RequiredModules.Count -eq 0))
- { Write-Verbose "RequireModules empty or unknown : $Data" }
+  $PSmoduleInfo = $ev = $null
+  $PSmoduleInfo  = Microsoft.PowerShell.Core\Test-ModuleManifest -Path $ManifestPath `
+                                                                 -ErrorVariable ev `
+                                                                 -Verbose:$VerbosePreference
+  if($ev)
+  { throw (New-Object System.Exception -ArgumentList "Unable to read the manifest $Data",$_.Exception)  }
 
- Foreach ($ModuleInfo in $Manifest.RequiredModules)
- {
-    #Microsoft.PowerShell.Commands.ModuleSpecification : 'RequiredVersion' need PS version 5.0
-    #Instead, one build splatting for Find-Module
-   Write-Debug "$($ModuleInfo|Out-String)"
-   if ($ModuleInfo -is [System.Collections.Hashtable])
-   {
-     $ModuleInfo.Add('Name',$ModuleInfo.ModuleName)
-     $ModuleInfo.Remove('ModuleName')
-     if ($ModuleInfo.Contains('ModuleVersion'))
-     {$ModuleInfo.Add('MinimumVersion',$ModuleInfo.ModuleVersion)}
-     $ModuleInfo.Remove('ModuleVersion')
-     $ModuleInfo.Remove('GUID')
-   }
-   else
-   {
-      $Name,$ModuleInfo=$ModuleInfo,@{}
-      $ModuleInfo.'Name'=$Name
-   }
-   if($AsHashTable)
-   { Write-Output $ModuleInfo }
-   elseif ($AsModuleSpecification)
-   { New-Object -TypeName Microsoft.PowerShell.Commands.ModuleSpecification -ArgumentList $ModuleInfo }
-   else
-   { New-Object PSObject -Property $ModuleInfo }
- }
+  if (($PSmoduleInfo.RequiredModules -eq $null) -or ($PSmoduleInfo.RequiredModules.Count -eq 0))
+  { Write-Verbose "RequireModules empty or unknown : $Data" }
+
+  Foreach ($ModuleInfo in $PSmoduleInfo.RequiredModules)
+  {
+      #Microsoft.PowerShell.Commands.ModuleSpecification : 'RequiredVersion' need PS version 5.0
+      #Instead, one build splatting for Find-Module : Name, Repository et MinimumVersion ou MaximumVersion ou RequiredVersion
+    Write-Debug "$($ModuleInfo|Out-String)"
+    $Result=@{}
+
+
+    $Result.Add('Name',$ModuleInfo.ModuleName)
+    if ($ModuleInfo.Contains('ModuleVersion'))
+    { $Result.Add('MinimumVersion',$ModuleInfo.ModuleVersion)}
+    elseif ($ModuleInfo.Contains('RequiredVersion'))
+    {$Result.Add('MinimumVersion',$ModuleInfo.ModuleVersion)}
+    elseif ($ModuleInfo.Contains('RequiredVersion'))
+    {}
+    
+
+    Write-Output $Result
+  }
+  Foreach ($ModuleInfo in $PSmoduleInfo.RequiredModules)
+  {
+    $RequiredPSModuleInfos = $PSModuleInfo.NestedModules | Microsoft.PowerShell.Core\Where-Object {
+                          -not $_.ModuleBase.StartsWith($PSModuleInfo.ModuleBase, [System.StringComparison]::OrdinalIgnoreCase) -or
+                          -not $_.Path -or 
+                          -not (Microsoft.PowerShell.Management\Test-Path -LiteralPath $_.Path)
+                         }
+  }
 }
-
 Function New-ScriptFileName {
  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions","",
                                                     Justification="New-ScriptFileName do not change the system state, it create only a file name.")]
   <#
   .SYNOPSIS
-    Create a new file name from a type data file (.ps1Xmlml).
-    The name of the new file is equal to the "$TargertDirectory\$($File.Basename).ps1"
-  .DESCRIPTION
-    Long description
-  .EXAMPLE
-    PS C:\> $NewFile=ConvertTo-ScriptFileName -File $File -TargetDirectory $TargetDirectory 
-    Explanation of what the example does todo
+    Create a new file name from a type data file (.ps1xml).
+    The name of the new file is equal to the "$TargetDirectory\$($File.Basename).ps1"
+
   .INPUTS
     [string]
   .OUTPUTS
     [string]
-  .NOTES
-    General notes
   #>
   param(
     # Specifies a path to one or more .ps1xml type data file.
@@ -318,7 +298,6 @@ Function New-ScriptFileName {
   
   )
   process {
-       #todo control PSPath, relatif, litteral->'F[0]', etc...
     $ScriptFile=[System.IO.FileInfo]::New($File)
     Write-output ("{0}\{1}{2}" -F $TargetDirectory,$ScriptFile.BaseName,'.ps1')
   }
@@ -327,14 +306,11 @@ Function New-ScriptFileName {
 Function Export-ScriptMethod {
   <#
   .SYNOPSIS
-    Extract scriptblocs of a ScriptMethod from a type data file (.ps1Xmlml) and create a new file.
-    The name of the new file is equal to the "$TargertDirectory\$($File.Basename).ps1"
+    Extract scriptblocs of a ScriptMethod from a type data file (.ps1Xml) and create a new file.
+    The name of the new file is equal to the "$TargetDirectory\$($File.Basename).ps1"
     This file can be used with Invoke-ScriptAnalyzer.
   .DESCRIPTION
     Long description
-  .EXAMPLE
-    PS C:\> <example usage>
-    Explanation of what the example does
   .INPUTS
     [string]
   .OUTPUTS
