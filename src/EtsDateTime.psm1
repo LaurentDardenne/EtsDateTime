@@ -43,7 +43,7 @@ Function Get-PublicHolidayFR{
 
 
  #Jours fériés nationaux, communs à tous les département plus le Vendredi Saint et la Saint-Etienne
-$T=[Nager.Date.DateSystem]::GetPublicHoliday('FR',$year) -as [Nager.Date.Model.PublicHoliday[]]
+$T=[Nager.Date.DateSystem]::GetPublicHolidays('FR',$year) -as [Nager.Date.Model.PublicHoliday[]]
 
 foreach ($PublicHoliday in $T)
 {
