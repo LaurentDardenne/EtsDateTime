@@ -6,7 +6,7 @@
 @{
   ModuleToProcess="EtsDateTime.psm1" 
 
-  Author="Laurent Dardenne. FluentDateTime authors :Slobodan Pavkov, Tom Pester, Simon Cropp. Nager.Date author : Tino Hager.  DateTimeExtensions author : Joao Matos Silva"
+  Author="Laurent Dardenne. FluentDateTime authors :Slobodan Pavkov, Tom Pester, Simon Cropp. DateTimeExtensions author : Joao Matos Silva"
   Copyright="http://www.apache.org/licenses/LICENSE-2.0.html"
   Description="A set of C# Extension Methods for easier and more natural DateTime handling and operations in Powershell."
   CLRVersion="4.0"
