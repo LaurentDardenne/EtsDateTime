@@ -46,7 +46,6 @@ task StageFiles Init, Clean, BeforeStageFiles, CoreStageFiles, AfterStageFiles, 
 }
 
 task CoreStageFiles {
-    write-warning "Copy-Item -Path $SrcRootDir\* -Destination '$OutDir\$ProjectName' -Recurse -Exclude $Exclude -Verbose:($VerbosePreference -eq 'Continue')"
     Copy-Item -Path $SrcRootDir\* -Destination "$OutDir\$ProjectName" -Recurse -Exclude $Exclude -Verbose:($VerbosePreference -eq 'Continue')
     Write-Host "The files have been copied to '$ModuleOutDir'"
 }
