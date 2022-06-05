@@ -1,4 +1,5 @@
-﻿Import-Module -Name  EtsDateTime
+﻿Import-Module -Name EtsDateTime
+
 
 #MSDN documentation
 #
@@ -61,13 +62,5 @@ param()
   #Ne tient pas compte des jours fériés
   #-1 pour le jour en cours
   Write-host "`r`nDans 2 semaines (jours ouvré ) : $(([DateTime]::Now.AddBusinessDays(((2*5)-1))).ToString())"
-
-  Write-host "`r`nConnaitre les pays gérés par la librairie Nager.Date.dll"
-  $null = Read-Host 'Press Enter to continue...'
-  [Nager.Date.PublicHolidays.FranceProvider].Assembly.ExportedTypes|Select-Object name
-
-   Write-host "`r`nListe des code pays gérés par la librairie Nager.Date.dll"
-   # [Nager.Date.CountryCode]::Fr
-  [Enum]::GetNames([Nager.Date.CountryCode])
 }
 . Demo
