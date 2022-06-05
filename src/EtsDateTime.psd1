@@ -15,15 +15,12 @@
   PowerShellVersion="5.1"
   TypesToProcess = @( 
      '.\TypeData\FluentDateTime.Extensions.Types.ps1xml',
-     '.\TypeData\Nager.Date.Types.ps1xml',
      '.\TypeData\DateTimeExtensions.Types.ps1xml',
-     '.\TypeData\List.Nager.Date.Model.PublicHoliday.Types.ps1xml',
      '.\TypeData\System.String.Types.ps1xml'
   )
   
   RequiredAssemblies=@(
     '.\lib\FluentDateTime.dll',
-    '.\lib\Nager.Date.dll',
     '.\lib\DateTimeExtensions\DateTimeExtensions.dll'
   )
 
