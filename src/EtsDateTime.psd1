@@ -11,8 +11,8 @@
   Description="A set of C# Extension Methods for easier and more natural DateTime handling and operations in Powershell."
   CLRVersion="4.0"
   GUID = 'a4b6fb6e-b8fd-448d-ba62-630eaf075bde'
-  ModuleVersion="0.0.2"
-  PowerShellVersion="3.0"
+  ModuleVersion="0.0.3"
+  PowerShellVersion="5.1"
   TypesToProcess = @( 
      '.\TypeData\FluentDateTime.Extensions.Types.ps1xml',
      '.\TypeData\Nager.Date.Types.ps1xml',
@@ -24,8 +24,7 @@
   RequiredAssemblies=@(
     '.\lib\FluentDateTime.dll',
     '.\lib\Nager.Date.dll',
-    '.\lib\DateTimeExtensions\DateTimeExtensions.dll',
-    '.\lib\Itenso.TimePeriod.dll'
+    '.\lib\DateTimeExtensions\DateTimeExtensions.dll'
   )
 
  FunctionsToExport=@( 'Get-PublicHolidayFR','New-FactoryFilterDate' )
