@@ -93,9 +93,9 @@ $PH.AddRange($T)
     Ide el Kébîr est la fin du ramadan, le 1 jour du dixième mois lunaire
 
       Jours fériés payés et non obligatoirement chômés
-    - 27 Avril (Abolition de l’esclavage),
+    - 27 Avril (Abolition de l'esclavage),
     - 8 Mai,
-    - Jeudi de l’Ascension,
+    - Jeudi de l'Ascension,
     - Lundi de Pentecôte,
     - 14 Juillet,
     - 15 Août (Assomption)
