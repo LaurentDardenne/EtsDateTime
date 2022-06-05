@@ -89,7 +89,7 @@ Task Clean -depends Init -requiredVariables OutDir, ModuleOutDir {
     # Maybe a bit paranoid but this task nuked \ on my laptop. Good thing I was not running as admin.
     if ($OutDir.Length -gt 3) {
         Get-ChildItem $OutDir | Remove-Item -Recurse -Force -Verbose:($VerbosePreference -eq 'Continue')
-        NewDirectory -Path $ModuleOutDir -TaskName $psake.context.currentTaskName
+        NewDirectory -Path "$OutDir\$ModuleName" -TaskName $psake.context.currentTaskName
     }
     else {
         Write-Verbose "$($psake.context.currentTaskName) - `$OutDir '$OutDir' must be longer than 3 characters."
@@ -100,7 +100,8 @@ Task StageFiles -depends Init, Clean, BeforeStageFiles, CoreStageFiles, AfterSta
 }
 
 Task CoreStageFiles -requiredVariables ModuleOutDir, SrcRootDir {
-    Copy-Item -Path $SrcRootDir\* -Destination $ModuleOutDir -Recurse -Exclude $Exclude -Verbose:($VerbosePreference -eq 'Continue')
+
+    Copy-Item -Path $SrcRootDir\* -Destination "$OutDir\$ModuleName" -Recurse -Exclude $Exclude -Verbose:($VerbosePreference -eq 'Continue')
 }
 
 Task Build -depends Init, Clean, BeforeBuild, StageFiles, Analyze, Sign, AfterBuild {
@@ -123,14 +124,16 @@ Task CoreAnalyze -depends StageFiles `
 
     "ScriptAnalysisFailBuildOnSeverityLevel set to: $ScriptAnalysisFailBuildOnSeverityLevel"
 
+ write-warning " analysisResult = Invoke-ScriptAnalyzer -Path '$OutDir\$ModuleName' -Settings $ScriptAnalyzerSettingsPath -CustomRulePath $PSSACustomRules -IncludeDefaultRules -Recurse  -Verbose:($VerbosePreference -eq 'Continue')"
     #TODO next version PSSA https://github.com/PowerShell/PSScriptAnalyzer/issues/675
-    $analysisResult = Invoke-ScriptAnalyzer -Path $ModuleOutDir -Settings $ScriptAnalyzerSettingsPath -CustomRulePath $PSSACustomRules -IncludeDefaultRules -Recurse  -Verbose:($VerbosePreference -eq 'Continue')
+    $analysisResult = Invoke-ScriptAnalyzer -Path "$OutDir\$ModuleName" -Settings $ScriptAnalyzerSettingsPath -IncludeDefaultRules -Recurse  -Verbose:($VerbosePreference -eq 'Continue')
     $analysisResult | Select-Object Severity,RuleName,Message,Line,ScriptPath
+      
     switch ($ScriptAnalysisFailBuildOnSeverityLevel) {
         'None' {
             return
         }
-        'Error' {
+        {$_ -in 'Error','ParseError'}  {
             Assert -conditionToCheck (
                 ($analysisResult | Where-Object Severity -eq 'Error').Count -eq 0
                 ) -failureMessage 'One or more ScriptAnalyzer errors were found. Build cannot continue!'
@@ -196,7 +199,7 @@ Task Sign -depends StageFiles -requiredVariables CertPath, SettingsPath, ScriptS
         "Using code-signing certificate: $certificate"
         $LineSep
 
-        $files = @(Get-ChildItem -Path $ModuleOutDir\* -Recurse -Include *.ps1,*.psm1)
+        $files = @(Get-ChildItem -Path "$OutDir\$ModuleName\*" -Recurse -Include *.ps1,*.psm1)
         foreach ($file in $files) {
             $setAuthSigParams = @{
                 FilePath = $file.FullName
@@ -238,7 +241,7 @@ Task GenerateMarkdown -requiredVariables DefaultLocale, DocsRootDir, ModuleName,
         return
     }
 
-    $moduleInfo = Import-Module $ModuleOutDir\$ModuleName.psd1 -Global -Force -PassThru
+    $moduleInfo = Import-Module "$OutDir\$ModuleName\$ModuleName.psd1" -Global -Force -PassThru
 
     try {
         if ($moduleInfo.ExportedCommands.Count -eq 0) {
@@ -280,7 +283,7 @@ Task GenerateHelpFiles -requiredVariables DocsRootDir, ModuleName, ModuleOutDir,
 
     # Generate the module's primary MAML help file.
     foreach ($locale in $helpLocales) {
-        New-ExternalHelp -Path $DocsRootDir\$locale -OutputPath $ModuleOutDir\$locale -Force `
+        New-ExternalHelp -Path $DocsRootDir\$locale -OutputPath "$OutDir\$ModuleName\$locale" -Force `
                          -ErrorAction SilentlyContinue -Verbose:($VerbosePreference -eq 'Continue') > $null
     }
 }
@@ -308,7 +311,7 @@ Task CoreBuildUpdatableHelp -requiredVariables DocsRootDir, ModuleName, Updatabl
     # Generate updatable help files.  Note: this will currently update the version number in the module's MD
     # file in the metadata.
     foreach ($locale in $helpLocales) {
-        New-ExternalHelpCab -CabFilesFolder $ModuleOutDir\$locale -LandingPagePath $DocsRootDir\$locale\$ModuleName.md `
+        New-ExternalHelpCab -CabFilesFolder "$OutDir\$ModuleName\$locale" -LandingPagePath $DocsRootDir\$locale\$ModuleName.md `
                             -OutputFolder $UpdatableHelpOutDir -Verbose:($VerbosePreference -eq 'Continue') > $null
     }
 }
@@ -330,7 +333,7 @@ Task CoreGenerateFileCatalog -requiredVariables CatalogGenerationEnabled, Catalo
     $catalogFilePath = "$OutDir\$ModuleName.cat"
 
     $newFileCatalogParams = @{
-        Path = $ModuleOutDir
+        Path = "$OutDir\$ModuleName"
         CatalogFilePath = $catalogFilePath
         CatalogVersion = $CatalogVersion
         Verbose = $VerbosePreference
@@ -361,7 +364,7 @@ Task CoreGenerateFileCatalog -requiredVariables CatalogGenerationEnabled, Catalo
         "Script signing is not enabled. Skipping signing of file catalog."
     }
 
-    Move-Item -LiteralPath $newFileCatalogParams.CatalogFilePath -Destination $ModuleOutDir
+    Move-Item -LiteralPath $newFileCatalogParams.CatalogFilePath -Destination "$OutDir\$ModuleName"
 }
 
 Task Install -depends Build, BuildHelp, GenerateFileCatalog, BeforeInstall, CoreInstall, AfterInstall {
@@ -373,7 +376,7 @@ Task CoreInstall -requiredVariables ModuleOutDir {
         New-Item -Path $InstallPath -ItemType Directory -Verbose:($VerbosePreference -eq 'Continue') > $null
     }
 
-    Copy-Item -Path $ModuleOutDir\* -Destination $InstallPath -Verbose:($VerbosePreference -eq 'Continue') -Recurse -Force
+    Copy-Item -Path "$OutDir\$ModuleName\*" -Destination $InstallPath -Verbose:($VerbosePreference -eq 'Continue') -Recurse -Force
     "Module installed into $InstallPath"
 }
 
@@ -460,7 +463,7 @@ Task CorePublish -requiredVariables SettingsPath, ModuleOutDir, isCIEnvironment,
     }
 
     $publishParams = @{
-        Path        = $ModuleOutDir
+        Path        = "$OutDir\$ModuleName"
         NuGetApiKey = $NuGetApiKey
     }
 
