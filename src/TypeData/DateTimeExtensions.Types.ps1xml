@@ -9,8 +9,6 @@
 # SetTime([System.DateTime] $date, [System.Int32] $hour, [System.Int32] $minute)
 # SetTime([System.DateTime] $date, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second)
 # SetTime([System.DateTime] $date, [System.Int32] $hour, [System.Int32] $minute, [System.Int32] $second, [System.Int32] $millisecond)
-
-# IsHoliday and AllYearHolidays do not use 'Nager.Date.Extensions' calendars
  -->
  
 <Types>
