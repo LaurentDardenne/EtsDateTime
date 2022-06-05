@@ -11,7 +11,7 @@
   Description="A set of C# Extension Methods for easier and more natural DateTime handling and operations in Powershell."
   CLRVersion="4.0"
   GUID = 'a4b6fb6e-b8fd-448d-ba62-630eaf075bde'
-  ModuleVersion="0.0.3"
+  ModuleVersion="1.0.0"
   PowerShellVersion="5.1"
   TypesToProcess = @( 
      '.\TypeData\FluentDateTime.Extensions.Types.ps1xml',
