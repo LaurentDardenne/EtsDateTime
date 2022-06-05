@@ -107,7 +107,7 @@ $TestRootDir = "$PSScriptRoot\Test"
 
 # The $OutDir is where module files and updatable help files are staged for signing, install and publishing.
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$OutDir = "$PSScriptRoot\RELEASES"
+$OutDir = "$PSScriptRoot\Release"
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $ModuleOutDir = "$OutDir\$ProjectName"
