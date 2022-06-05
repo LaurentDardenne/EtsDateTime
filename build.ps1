@@ -1,4 +1,15 @@
-﻿#Requires -Modules psake
+#Requires -Modules InvokeBuild
 
-# Builds the module by invoking psake on the build.psake.ps1 script.
-Invoke-PSake $PSScriptRoot\build.psake.ps1 -taskList Build
+[CmdletBinding(DefaultParameterSetName = "Debug")]
+Param(
+    [Parameter(ParameterSetName="Release")]
+  [switch] $Release,
+
+  [ValidateRange('Dev','Prod')]
+  [string] $Environnement='Dev'
+)
+
+Write-Host "Build the delivery for the EtsDatetime module."
+$local:Verbose=$PSBoundParameters.ContainsKey('Verbose')
+$local:Debug=$($PSBoundParameters.ContainsKey('Debug'))
+Invoke-Build -File "$PSScriptRoot\EtsDatetime.build.ps1" -Configuration $PsCmdlet.ParameterSetName -Environnement $Environnement -Verbose:$Verbose -Debug:$Debug
