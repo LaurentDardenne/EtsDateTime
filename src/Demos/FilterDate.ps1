@@ -1,4 +1,5 @@
-﻿#Import-Module EtsDateTime
+﻿Import-Module EtsDateTime
+
 Function Demo {
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingWriteHost", "", Scope="Function")]
 param()

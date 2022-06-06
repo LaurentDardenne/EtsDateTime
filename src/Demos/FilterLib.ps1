@@ -1,4 +1,5 @@
-﻿
+﻿Import-Module -Name EtsDateTime
+
 function Get-PropertiesDateTime([Type] $Class){
  #Retrouve les propriétés de type date d'une classe
  #renvoi une hashtable : $H.NomClass.[Propriétés]
