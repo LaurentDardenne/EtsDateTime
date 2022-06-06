@@ -17,7 +17,6 @@ param()
   
   Write-host ("`r`nDate de passage à l'heure d'hiver : {0}" -F   [DateTime]::Now.Setday(1).SetMonth(10).LastDayOfWeekOfTheMonth([DayOfWeek]::Sunday).Sethour(3))
   
-
   $Year=[DateTime]::Now.Year
   $Date=[DateTime]::Now.Setday(1).SetMonth(10).SetYear($Year+1).LastDayOfWeekOfTheMonth([DayOfWeek]::Sunday).Sethour(3)
     Write-host ("`r`nDate de passage à l'heure d'hiver de l'année prochaine : {0}" -F $Date)
