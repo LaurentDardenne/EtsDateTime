@@ -104,6 +104,8 @@ $ProjectName= 'EtsDateTime'
 $SrcRootDir  = "$PSScriptRoot\Src"
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $TestRootDir = "$PSScriptRoot\Test"
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
+$DocRootDir = "$PSScriptRoot\Docs"
 
 # The $OutDir is where module files and updatable help files are staged for signing, install and publishing.
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
