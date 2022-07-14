@@ -28,7 +28,7 @@ jobs:
 
         with:
           modules-to-cache: Pester, PSScriptAnalyzer, InvokeBuild, platyPS
-          shell: powershell
+          #shell: powershell
 
       - name: Setup PowerShell module cache
         id: cacher
@@ -39,7 +39,6 @@ jobs:
 
       - name: Install required PowerShell modules, if not cached
         if: steps.cacher.outputs.cache-hit != 'true'
-        
         run: |
             Set-PSRepository PSGallery -InstallationPolicy Trusted
             Install-Module ${{ steps.psmodulecache.outputs.needed }} -ErrorAction Stop  
