@@ -1,10 +1,10 @@
-#Requires -Modules InvokeBuild
+﻿#Requires -Modules InvokeBuild
 <#
 .Synopsis
-                Build script invoked by Invoke-Build.
+    Build script invoked by Invoke-Build.
 
 .Description
-    Construit le projet Powershell EtsDatetime
+    Build the Powershell project EtsDatetime
 #>
 [CmdletBinding()]
 param(

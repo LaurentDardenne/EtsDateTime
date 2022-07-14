@@ -1,4 +1,4 @@
-param()
+﻿param()
 
 function newDirectory {
    param (
@@ -197,8 +197,6 @@ $isTestBom=$true
 
 task RemoveConditionnal -If { return $false } {
 #Traite les pseudo directives de parsing conditionnelle
-#  #bug scope/limit PSake ?
-#  # The first call works, but not the followings
 #  #-Force reload the ScriptToProcess
 #  Import-Module Template -Force
 
@@ -267,7 +265,7 @@ task TestBOM -If { $isTestBom } {
 # ne sont pas encodés ASCII ont un BOM (cette régle est trop 'permissive' ici).
 #On ne veut livrer que des fichiers UTF-8.
 
-  Write-verbose "Validation de l'encodage des fichiers du répertoire : $SrcRootDir"
+  Write-verbose "Validation of directory file encoding : $SrcRootDir"
 
   Import-Module DTW.PS.FileSystem
 
@@ -275,7 +273,7 @@ task TestBOM -If { $isTestBom } {
   if ($InvalidFiles.Count -ne 0)
   {
      $InvalidFiles |Format-List *
-     Throw "Des fichiers ne sont pas encodés en UTF8 ou sont codés BigEndian."
+     Throw 'Files are not encoded in UTF8 or are BigEndian encoded.'
   }
 }
 
@@ -305,23 +303,23 @@ task AfterStageFiles TestBOM, TestLocalizedData, {
 task BeforeBuild {
 }
 
-# #Verifying file encoding AFTER generation
+# Verifying file encoding AFTER generation
 task TestBOMAfterAll -If { $isTestBom } {
    Import-Module DTW.PS.FileSystem
 
-  Write-Verbose  "Validation finale de l'encodage des fichiers du répertoire : $ModuleOutDir"
+  Write-Verbose  "Final validation of directory file encoding : $ModuleOutDir"
   $InvalidFiles=@(Test-BOMFile -path $ModuleOutDir)
   if ($InvalidFiles.Count -ne 0)
   {
      $InvalidFiles |Format-List *
-     Throw "Des fichiers ne sont pas encodés en UTF8 ou sont codés BigEndian."
+     Throw 'Files are not encoded in UTF8 or are BigEndian encoded.'
   }
 }
 
 # Executes after the Build task.
 task AfterBuild TestBOMAfterAll, {
-    Write-Host "La livraison se trouve dans le répertoire '$ModuleOutDir'"
-    Write-Host "Configuration de '$Configuration' pour l'environnement de '$Environnement'"
+    Write-Host "The delivery is in the directory '$ModuleOutDir'"
+    Write-Host "Configuration '$Configuration' for the '$Environnement' environment."
 }
 
 ###############################################################################
