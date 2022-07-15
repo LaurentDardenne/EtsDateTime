@@ -25,7 +25,6 @@ jobs:
       - name: Set required PowerShell modules
         id: psmodulecache
         uses: potatoqualitee/psmodulecache@v4.5
-
         with:
           modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS
           shell: powershell
@@ -33,4 +32,4 @@ jobs:
       - name: Invoke build - mode 'Debug' for 'Dev' environment
         shell: powershell
         run: |
-          .\Build.ps1
+          Write-output 'Todo call .\Build.ps1'
