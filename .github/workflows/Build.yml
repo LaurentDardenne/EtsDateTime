@@ -27,21 +27,8 @@ jobs:
         uses: potatoqualitee/psmodulecache@v4.5
 
         with:
-          modules-to-cache: Pester, PSScriptAnalyzer, InvokeBuild, platyPS
-          #shell: powershell
-
-      - name: Setup PowerShell module cache
-        id: cacher
-        uses: actions/cache@v2
-        with:
-            path: ${{ steps.psmodulecache.outputs.modulepath }}
-            key: ${{ steps.psmodulecache.outputs.keygen }}
-
-      - name: Install required PowerShell modules, if not cached
-        if: steps.cacher.outputs.cache-hit != 'true'
-        run: |
-            Set-PSRepository PSGallery -InstallationPolicy Trusted
-            Install-Module ${{ steps.psmodulecache.outputs.needed }} -ErrorAction Stop  
+          modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS
+          shell: powershell
 
       - name: Invoke build - mode 'Debug' for 'Dev' environment
         shell: powershell
