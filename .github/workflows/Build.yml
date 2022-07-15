@@ -32,4 +32,9 @@ jobs:
       - name: Invoke build - mode 'Debug' for 'Dev' environment
         shell: powershell
         run: |
-          Write-output 'Todo call .\Build.ps1'
+          $MygetGalleryPublishUri = 'https://www.myget.org/F/ottomatt/api/v2/package'
+          $MygetGallerySourceUri = 'https://www.myget.org/F/ottomatt/api/v2'
+
+          Register-PSRepository -Name OttoMatt -SourceLocation $MygetGallerySourceUri -PublishLocation $MygetGalleryPublishUri -InstallationPolicy Trusted
+          Install-Module -Name DTW.PS.FileSystem -Repository OttoMatt -Confirm:$false -Force
+          .\Build.ps1
