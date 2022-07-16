@@ -16,6 +16,15 @@ jobs:
  Build-EtsDateTime-for-powershell-v5-1:
     # The type of runner that the job will run on
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: powershell
+        # env:
+        #   ## Environment variable for step n
+        #   VAR_NAME: XXXXXXXXXXXX    
+        # ## Reference your environment variables
+        # run: echo "var :${{env.VAR_NAME}}"   
+        # run: echo "The API key is:${{secrets.API_KEY}}"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -27,10 +36,8 @@ jobs:
         uses: potatoqualitee/psmodulecache@v4.5
         with:
           modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS
-          shell: powershell
 
       - name: Invoke build - mode 'Debug' for 'Dev' environment
-        shell: powershell
         run: |
           $MygetGalleryPublishUri = 'https://www.myget.org/F/ottomatt/api/v2/package'
           $MygetGallerySourceUri = 'https://www.myget.org/F/ottomatt/api/v2'
@@ -38,3 +45,11 @@ jobs:
           Register-PSRepository -Name OttoMatt -SourceLocation $MygetGallerySourceUri -PublishLocation $MygetGalleryPublishUri -InstallationPolicy Trusted
           Install-Module -Name DTW.PS.FileSystem -Repository OttoMatt -Confirm:$false -Force
           .\Build.ps1
+          echo "artifactPath= $GITHUB_WORKSPACE\Release" >> $GITHUB_ENV"
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: artifact
+          path: ${{ env.artifactPath }}         
+
