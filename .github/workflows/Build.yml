@@ -16,9 +16,9 @@ jobs:
  Build-EtsDateTime-for-powershell-v5-1:
     # The type of runner that the job will run on
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: powershell
+    #defaults:
+      # run: bug de psmodulecache ?
+      #   shell: powershell
         # env:
         #   ## Environment variable for step n
         #   VAR_NAME: XXXXXXXXXXXX    
@@ -36,8 +36,10 @@ jobs:
         uses: potatoqualitee/psmodulecache@v4.5
         with:
           modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS
+          shell: powershell
 
       - name: Invoke build - mode 'Debug' for 'Dev' environment
+        shell: powershell
         run: |
           $MygetGalleryPublishUri = 'https://www.myget.org/F/ottomatt/api/v2/package'
           $MygetGallerySourceUri = 'https://www.myget.org/F/ottomatt/api/v2'
