@@ -47,11 +47,10 @@ jobs:
           Register-PSRepository -Name OttoMatt -SourceLocation $MygetGallerySourceUri -PublishLocation $MygetGalleryPublishUri -InstallationPolicy Trusted
           Install-Module -Name DTW.PS.FileSystem -Repository OttoMatt -Confirm:$false -Force
           .\Build.ps1
-          echo "artifactPath= $GITHUB_WORKSPACE\Release" >> $GITHUB_ENV
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: artifact
-          path: ${{ env.artifactPath }}         
+          name: EtsDateTime
+          path:  ${{ github.workspace }}/Release/EtsDateTime
 
