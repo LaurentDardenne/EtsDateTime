@@ -267,7 +267,7 @@ task TestBOM -If { $isTestBom } {
 
   Write-verbose "Validation of directory file encoding : $SrcRootDir"
 
-  Import-Module DTW.PS.FileSystem
+  Import-Module PowerShell-Beautifier
 
   $InvalidFiles=@(Test-BOMFile -path $SrcRootDir)
   if ($InvalidFiles.Count -ne 0)
@@ -305,7 +305,8 @@ task BeforeBuild {
 
 # Verifying file encoding AFTER generation
 task TestBOMAfterAll -If { $isTestBom } {
-   Import-Module DTW.PS.FileSystem
+     #Contain Get-DTWFileEncoding 
+    Import-Module PowerShell-Beautifier
 
   Write-Verbose  "Final validation of directory file encoding : $ModuleOutDir"
   $InvalidFiles=@(Test-BOMFile -path $ModuleOutDir)

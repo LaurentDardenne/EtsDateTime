@@ -35,17 +35,21 @@ jobs:
         id: psmodulecache
         uses: potatoqualitee/psmodulecache@v4.5
         with:
-          modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS
+          modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS,PowerShell-Beautifier
           shell: powershell
 
       - name: Invoke build - mode 'Debug' for 'Dev' environment
         shell: powershell
         run: |
+          #todo
+          # if ($PSEdition -eq 'Desktop') {
+          #   [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 'Tls12'
+          # }
           $MygetGalleryPublishUri = 'https://www.myget.org/F/ottomatt/api/v2/package'
           $MygetGallerySourceUri = 'https://www.myget.org/F/ottomatt/api/v2'
 
           Register-PSRepository -Name OttoMatt -SourceLocation $MygetGallerySourceUri -PublishLocation $MygetGalleryPublishUri -InstallationPolicy Trusted
-          Install-Module -Name DTW.PS.FileSystem -Repository OttoMatt -Confirm:$false -Force
+          #TODO remove ? Install-Module -Name  -Repository OttoMatt -Confirm:$false -Force
           .\Build.ps1
 
       - name: Upload a Build Artifact
@@ -53,4 +57,4 @@ jobs:
         with:
           name: EtsDateTime
           path:  ${{ github.workspace }}/Release/EtsDateTime
-
+          #todo publish : https://github.com/LaurentDardenne/EtsDateTime/blob/master/appveyor.yml
