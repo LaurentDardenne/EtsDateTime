@@ -30,10 +30,49 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name: Set Required repositories
+        shell: powershell
+        run: |      
+            $Repositories=@(
+              [PsCustomObject]@{
+                  name='OttoMatt'
+                  publishlocation='https://www.myget.org/F/ottomatt/api/v2/package'
+                  sourcelocation='https://www.myget.org/F/ottomatt/api/v2'
+              },
+              [PsCustomObject]@{
+                  name='DevOttoMatt'
+                  publishlocation='https://www.myget.org/F/devottomatt/api/v2/package'
+                  sourcelocation='https://www.myget.org/F/devottomatt/api/v2'
+              }
+            )   
+            $RepositoryNames=[System.Collections.Arraylist]::New()
+            Foreach ($Repository in $Repositories) #todo controls
+            {
+              $Name=$Repository.Name
+              try{
+                  $RepositoryNames.Add($Name) > $Null
+                  Get-PSRepository $Name -EA Stop >$null   
+              }catch {
+                  if ($_.CategoryInfo.Category -ne 'ObjectNotFound')
+                  { throw $_ }
+                  else
+                  { 
+                    $Parameters=@{
+                        Name=$Name
+                        SourceLocation=$Repository.SourceLocation 
+                        PublishLocation=$Repository.PublishLocation
+                        InstallationPolicy='Trusted'
+                    }
+                    Write-Output "Register repository '$($Repository.Name)'" 
+                    Register-PSRepository @Parameters
+                  }
+              }
+            }
 
       - name: Set required PowerShell modules
         id: psmodulecache
-        uses: potatoqualitee/psmodulecache@v4.5
+        #uses: potatoqualitee/psmodulecache@v4.5
+        uses: PSLDA/psmodulecache@5.0
         with:
           modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS,PowerShell-Beautifier
           shell: powershell
