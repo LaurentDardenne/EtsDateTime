@@ -1,5 +1,5 @@
 ﻿
-Function Get-EtsDatetimeMethod {
+Function Get-EtsDatetimeMethod{
   param([switch] $help)
 
   if ($help)

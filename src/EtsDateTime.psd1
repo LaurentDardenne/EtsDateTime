@@ -24,6 +24,8 @@
     '.\lib\DateTimeExtensions\DateTimeExtensions.dll'
   )
 
+ FunctionsToExport=@( 'Get-EtsDatetimeMethod' )
+
  CompatiblePSEditions = 'Desktop'
 
  PrivateData = @{
