@@ -24,8 +24,6 @@
     '.\lib\DateTimeExtensions\DateTimeExtensions.dll'
   )
 
- FunctionsToExport=@( 'Get-PublicHolidayFR','New-FactoryFilterDate' )
-
  CompatiblePSEditions = 'Desktop'
 
  PrivateData = @{
