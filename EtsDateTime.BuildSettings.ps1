@@ -11,7 +11,7 @@ function newDirectory {
        $TaskName
    )
 
-process {
+ process {
     if (!(Test-Path -LiteralPath $Path))
     {
        Write-Verbose "$TaskName - create directory '$Path'."
@@ -19,7 +19,7 @@ process {
     }
     else
     { Write-Verbose "$TaskName - directory already exists '$Path'." }
-}
+ }
 }
 
 function GetModulePath {
@@ -82,11 +82,12 @@ function Test-BOMFile{
         }
         $EncodingInfo
         }|
-        #PS v2 Big Endian plante la signature de script
+        #PS v2 bug with Big Endian
         Where-Object {($_.Encoding -ne "UTF8Encoding") -or ($_.Endian -eq "Big")}
 }
 
 # ----------------------- Misc configuration properties ---------------------------------
+# Created by Keith Hill : https://github.com/PowerShellOrg/Plaster/blob/master/build.psake.ps1
 
 # Used by Edit-Template inside the 'RemoveConditionnal' task.
 # Valid values are 'Debug' or 'Release'
@@ -196,7 +197,7 @@ $isTestBom=$true
 ###############################################################################
 
 task RemoveConditionnal -If { return $false } {
-#Traite les pseudo directives de parsing conditionnelle
+#Process pseudo conditional parsing directives
 #  #-Force reload the ScriptToProcess
 #  Import-Module Template -Force
 
@@ -214,15 +215,15 @@ task RemoveConditionnal -If { return $false } {
 #       if ($BuildConfiguration -eq 'Release')
 #       {
 
-#          #Transforme les directives %Scriptblock%
+#          #Transforms %Scriptblock% directives
 #          $Lines=Get-Content -Path $Source -Encoding UTF8|
 #                  Edit-String -Setting $TemplateDefaultSettings|
 #                  Out-ArrayOfString
 
-#          #On supprime les lignes de code de Debug,
-#          #   supprime les lignes demandées,
-#          #   inclut les fichiers,
-#          #   nettoie toutes les directives restantes.
+#           #Remove lines of code from Debug,
+#           # delete the requested rows,
+#           # include files,
+#           # clean up all remaining directives.
 
 #          ,$Lines|
 #            Edit-Template -ConditionnalsKeyWord 'DEBUG' -Include -Remove -Container $Source|
@@ -231,11 +232,10 @@ task RemoveConditionnal -If { return $false } {
 #       }
 #       elseif ($BuildConfiguration -eq 'Debug')
 #       {
-#          #On ne traite aucune directive et on ne supprime rien.
-#          #On inclut uniquement les fichiers.
-
-#          #'NODEBUG' est une directive inexistante et on ne supprime pas les directives
-#          #sinon cela génére trop de différences en cas de comparaison de fichier
+#           #We don't process any directives and we don't delete anything.
+#           #Only include files.
+#           #'NODEBUG' is a non-existent directive and directives are not removed
+#           #otherwise it generates too many differences in case of file comparison
 #          $Lines=Get-Content -Path $Source -Encoding UTF8|
 #                   Edit-String -Setting  $TemplateDefaultSettings|
 #                   Out-ArrayOfString
@@ -261,10 +261,9 @@ task BeforeStageFiles RemoveConditionnal, {
 
 #Verifying file encoding BEFORE generation
 task TestBOM -If { $isTestBom } {
-#La régle 'UseBOMForUnicodeEncodedFile' de PSScripAnalyzer s'assure que les fichiers qui
-# ne sont pas encodés ASCII ont un BOM (cette régle est trop 'permissive' ici).
-#On ne veut livrer que des fichiers UTF-8.
-
+# PSScripAnalyzer's 'UseBOMForUnicodeEncodedFile' rule ensures that files that
+# are not ASCII encoded have a BOM (this rule is too 'permissive' here).
+# We only want to deliver UTF-8 files.
   Write-verbose "Validation of directory file encoding : $SrcRootDir"
 
   Import-Module PowerShell-Beautifier
@@ -305,7 +304,7 @@ task BeforeBuild {
 
 # Verifying file encoding AFTER generation
 task TestBOMAfterAll -If { $isTestBom } {
-     #Contain Get-DTWFileEncoding 
+     #Contain Get-DTWFileEncoding
     Import-Module PowerShell-Beautifier
 
   Write-Verbose  "Final validation of directory file encoding : $ModuleOutDir"
