@@ -1,38 +1,26 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
-  # push:
-  #  branches: [ "master" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
  Build-EtsDateTime-for-powershell-v5-1:
-    # The type of runner that the job will run on
     runs-on: windows-latest
     #defaults:
       # run: bug de psmodulecache ?
       #   shell: powershell
         # env:
         #   ## Environment variable for step n
-        #   VAR_NAME: XXXXXXXXXXXX    
+        #   VAR_NAME: XXXXXXXXXXXX
         # ## Reference your environment variables
-        # run: echo "var :${{env.VAR_NAME}}"   
+        # run: echo "var :${{env.VAR_NAME}}"
         # run: echo "The API key is:${{secrets.API_KEY}}"
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Set Required repositories
         shell: powershell
-        run: |      
+        run: |
             $Repositories=@(
               [PsCustomObject]@{
                   name='OttoMatt'
@@ -44,52 +32,45 @@ jobs:
                   publishlocation='https://www.myget.org/F/devottomatt/api/v2/package'
                   sourcelocation='https://www.myget.org/F/devottomatt/api/v2'
               }
-            )   
+            )
             $RepositoryNames=[System.Collections.Arraylist]::New()
-            Foreach ($Repository in $Repositories) #todo controls
+            Foreach ($Repository in $Repositories)
             {
               $Name=$Repository.Name
               try{
                   $RepositoryNames.Add($Name) > $Null
-                  Get-PSRepository $Name -EA Stop >$null   
+                  Get-PSRepository $Name -EA Stop >$null
               }catch {
                   if ($_.CategoryInfo.Category -ne 'ObjectNotFound')
                   { throw $_ }
                   else
-                  { 
+                  {
                     $Parameters=@{
                         Name=$Name
-                        SourceLocation=$Repository.SourceLocation 
+                        SourceLocation=$Repository.SourceLocation
                         PublishLocation=$Repository.PublishLocation
                         InstallationPolicy='Trusted'
                     }
-                    Write-Output "Register repository '$($Repository.Name)'" 
+                    Write-Output "Register repository '$($Repository.Name)'"
                     Register-PSRepository @Parameters
                   }
               }
             }
 
-      - name: Set required PowerShell modules
-        id: psmodulecache
-        #uses: potatoqualitee/psmodulecache@v4.5
-        uses: PSLDA/psmodulecache@5.0
-        with:
-          modules-to-cache: PSScriptAnalyzer, InvokeBuild, platyPS,PowerShell-Beautifier
-          shell: powershell
+            Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+
+            #BuildHelpers
+            foreach ($module in 'InvokeBuild', 'platyPS', 'PowerShell-Beautifier')
+            { Install-Module -name $Module -Repository PSGallery -Scope AllUsers -SkipPublisherCheck -AllowClobber }
+
+            #foreach ($module in 'MeasureLocalizedData','Template','OptimizationRules','ParameterSetRules')
+            #{ Install-Module -Repository OttoMatt -Scope AllUsers  -SkipPublisherCheck -AllowClobber }
+             #todo Action psmodulecache
 
       - name: Invoke build - mode 'Debug' for 'Dev' environment
         shell: powershell
         run: |
-          #todo
-          # if ($PSEdition -eq 'Desktop') {
-          #   [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 'Tls12'
-          # }
-          $MygetGalleryPublishUri = 'https://www.myget.org/F/ottomatt/api/v2/package'
-          $MygetGallerySourceUri = 'https://www.myget.org/F/ottomatt/api/v2'
-
-          Register-PSRepository -Name OttoMatt -SourceLocation $MygetGallerySourceUri -PublishLocation $MygetGalleryPublishUri -InstallationPolicy Trusted
-          #TODO remove ? Install-Module -Name  -Repository OttoMatt -Confirm:$false -Force
-          .\Build.ps1
+            .\Build.ps1
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
