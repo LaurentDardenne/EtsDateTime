@@ -80,7 +80,7 @@ jobs:
 
       - name: Publish on Myget
         env:
-          NUGET_KEY: ${{ secrets.MYGET }}
+          MYGET : ${{ secrets.MYGET }}
         shell: powershell
         run: |
           Publish-Module -Path ${{ github.workspace }}/Release/EtsDateTime -Repository 'DevOttoMatt' -NuGetApiKey $env:MYGET -Verbose
