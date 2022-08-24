@@ -77,4 +77,10 @@ jobs:
         with:
           name: EtsDateTime
           path:  ${{ github.workspace }}/Release/EtsDateTime
-          #todo publish : https://github.com/LaurentDardenne/EtsDateTime/blob/master/appveyor.yml
+
+      - name: Publish on Myget
+        env:
+          NUGET_KEY: ${{ secrets.MYGET }}
+        shell: powershell
+        run: |
+          Publish-Module -Path ${{ github.workspace }}/Release/EtsDateTime -NuGetApiKey $env:NUGET_KEY -Verbose
