@@ -14,7 +14,16 @@ Function Get-EtsDatetimeMethod{
      { Write-Warning "Program not found : 'hh.exe'" }
   }
   else
-  {  (Get-TypeData -TypeName Datetime).Members.Keys }
+  {
+    $Result=@{}
+    foreach($TypeName in 'Datetime','DateTimeOffset','Int32','Int64','String','Double','FluentDate.FluentTimeSpan')
+    {
+      $td=Get-TypeData -TypeName $TypeName
+      $KeyName=$td.TypeName
+      $Result.$KeyName=$td.Members.Keys
+    }
+    return ,$Result
+  }
 }
 
 Export-ModuleMember -Function 'Get-EtsDatetimeMethod'

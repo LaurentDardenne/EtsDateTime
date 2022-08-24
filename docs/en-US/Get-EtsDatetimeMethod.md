@@ -18,12 +18,20 @@ Get-EtsDatetimeMethod [-help]
 
 ## DESCRIPTION
 Get the names of extension methods list.
+Return a hashtable, the key is a type name et the values are the method names.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
 PS C:\> Get-EtsDatetimeMethod
+name                           Value
+----                           -----
+System.Int32                   {Years, Quarters, Months, Weeks...}
+System.String                  {ToMsrcID, ToTimeOfDay}
+System.DateTimeOffset          ...
+...
+
 ```
 
 ### Example 2
@@ -54,7 +62,7 @@ Accept wildcard characters: False
 
 ## OUTPUTS
 
-### [String[]]
+### [Hashtable]
 
 ## NOTES
 
