@@ -106,7 +106,7 @@ $SrcRootDir  = "$PSScriptRoot\Src"
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
 $TestRootDir = "$PSScriptRoot\Test"
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$DocRootDir = "$PSScriptRoot\Docs"
+$DocsRootDir = "$PSScriptRoot\Docs"
 
 # The $OutDir is where module files and updatable help files are staged for signing, install and publishing.
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
@@ -332,4 +332,16 @@ task BeforeInstall {
 
 # Executes after the Install task.
 task AfterInstall {
+}
+
+###############################################################################
+# Customize these tasks for performing operations before and/or after BuildHelp.
+###############################################################################
+
+# Executes before the BuildHelp task.
+Task BeforeBuildHelp {
+}
+
+# Executes after the BuildHelp task.
+Task AfterBuildHelp {
 }

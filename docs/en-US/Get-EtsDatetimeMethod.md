@@ -17,7 +17,7 @@ Get-EtsDatetimeMethod [-help]
 ```
 
 ## DESCRIPTION
-Get the names of extension methods list, added by the 'EtsDatetime' module.
+Get the names of extension methods list.
 
 ## EXAMPLES
 
@@ -55,6 +55,6 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ### [String[]]
+
 ## NOTES
 
-## RELATED LINKS
