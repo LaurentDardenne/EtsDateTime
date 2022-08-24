@@ -13,7 +13,7 @@ Get the extension methods list, added by the 'EtsDatetime' module.
 ## SYNTAX
 
 ```
-Get-EtsDatetimeMethod [-help]
+Get-EtsDatetimeMethod [-help] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,7 +31,6 @@ System.Int32                   {Years, Quarters, Months, Weeks...}
 System.String                  {ToMsrcID, ToTimeOfDay}
 System.DateTimeOffset          ...
 ...
-
 ```
 
 ### Example 2
@@ -63,6 +62,3 @@ Accept wildcard characters: False
 ## OUTPUTS
 
 ### [Hashtable]
-
-## NOTES
-
