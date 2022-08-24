@@ -32,7 +32,7 @@
 
   PSData = @{
 
-      Tags = @('PSEdition_Desktop')
+      Tags = @('PSEdition_Desktop','.ps1xml','Types','XML','typeextension','typedata')
 
       LicenseUri = 'https://creativecommons.org/licenses/by-nc-sa/4.0'
 
