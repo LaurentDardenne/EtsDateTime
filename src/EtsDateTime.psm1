@@ -1,5 +1,6 @@
 ﻿
 Function Get-EtsDatetimeMethod{
+# .ExternalHelp EtsDateTime-help.xml
   param([switch] $help)
 
   if ($help)
