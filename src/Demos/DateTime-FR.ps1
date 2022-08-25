@@ -34,7 +34,7 @@ param()
   Write-host ("`r`nAujourd'hui à 11h55 {0}" -F [DateTime]::Now.SetTime(11, 55, 0))
   Write-host ("`r`nDemain {0}" -F [DateTime]::Now.NextDay())
 
-  Write-Host "`r`nLe type [Int] propose des méthodes simplifiant la construction de date"
+  Write-Host "`r`nLe type [Int] propose des méthodes d'extesnion simplifiant la construction de date"
   Write-Host ("`r`nIl y a 3 jours  (3).Days().Ago() : {0}" -F (3).Days().Ago())
   Write-Host ("`r`nDans 3 jours  (-3).Days().Ago() : {0}" -F (-3).Days().Ago())
   Write-Host ("`r`Une durée de 3 jours et 14 minutes  (3).Days() + (14).Minutes()" -F  ((3).Days() + (14).Minutes()) )

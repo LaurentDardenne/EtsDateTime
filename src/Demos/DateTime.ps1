@@ -25,8 +25,8 @@ param()
 
   $TimeZone=[TimeZoneInfo]::FindSystemTimeZoneById('Eastern Standard Time')
   Write-host ("`r`nEastern Standard Time : {0}" -F [TimeZoneInfo]::ConvertTimeFromUtc($UTC,$TimeZone))
-  Write-host ("`r`nHier {0} (display with current culture)" -F ([DateTime]::Now.PreviousDay()))
-  Write-host "`r`nHier $([DateTime]::Now.PreviousDay()) (display with invariant culture (default US))"
+  Write-host ("`r`nYesterday {0} (display with current culture)" -F ([DateTime]::Now.PreviousDay()))
+  Write-host "`r`nYesterday $([DateTime]::Now.PreviousDay()) (display with invariant culture (default US))"
   #When resolving a variable between double quotes,
   # PowerShell formats numbers and dates with the invariant culture and not the current culture (Get-Culture)
 
@@ -34,7 +34,7 @@ param()
   Write-host ("`r`nToday at 11:55 a.m. {0}" -F [DateTime]::Now.SetTime(11, 55, 0))
   Write-host ("`r`ntomorrow {0}" -F [DateTime]::Now.NextDay())
 
-  Write-Host "`r`nThe [Int] type offers methods simplifying date construction."
+  Write-Host "`r`nThe [Int] type offers extension methods simplifying date construction."
   Write-Host ("`r`n3 days ago (3).Days().Ago() : {0}" -F (3).Days().Ago())
   Write-Host ("`r`nIn 3 days  (-3).Days().Ago() : {0}" -F (-3).Days().Ago())
   Write-Host ("`r`A duration of 3 days and 14 minutes (3).Days() + (14).Minutes()" -F ((3).Days() + (14).Minutes()) )
