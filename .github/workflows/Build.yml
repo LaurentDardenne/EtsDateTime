@@ -57,15 +57,24 @@ jobs:
               }
             }
 
-            Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+            #Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
             #BuildHelpers
-            foreach ($module in 'InvokeBuild', 'platyPS', 'PowerShell-Beautifier')
-            { Install-Module -name $Module -Repository PSGallery -Scope AllUsers -SkipPublisherCheck -AllowClobber }
+            # foreach ($module in 'InvokeBuild', 'platyPS', 'PowerShell-Beautifier')
+            # { Install-Module -name $Module -Repository PSGallery -Scope AllUsers -SkipPublisherCheck -AllowClobber }
 
             #foreach ($module in 'MeasureLocalizedData','Template','OptimizationRules','ParameterSetRules')
             #{ Install-Module -Repository OttoMatt -Scope AllUsers  -SkipPublisherCheck -AllowClobber }
-             #todo Action psmodulecache
+             #todo Action psmodulecache  <username>/<repo-name>@<branch-name>
+
+      - name: Cache modules
+        id: psmodulecache
+        uses: LaurentDardenne/psmodulecache@vNext5.0
+        with:
+          modules-to-cache: InvokeBuild::, platyPS::, PowerShell-Beautifier
+          shell: powershell
+          updatable: "true"
+          prefixidentifier: "true"
 
       - name: Invoke build - mode 'Debug' for 'Dev' environment
         shell: powershell
