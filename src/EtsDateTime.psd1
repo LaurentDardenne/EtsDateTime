@@ -1,7 +1,7 @@
 ﻿#
 # Manifeste de module pour le module "EtsDateTime"
 #
-# Généré le : 03/06/2017
+# Généré le : 03/06/2017
 
 @{
   ModuleToProcess="EtsDateTime.psm1"
