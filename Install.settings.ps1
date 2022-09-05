@@ -5,20 +5,21 @@
 Properties {
     # ----------------------- Basic properties --------------------------------
 
-    # Is the environment is APPVEYOR or a local computer ?
-    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-    $isAPPVEYOR = Test-Path env:APPVEYOR
-
     $InstallationScope='CurrentUser'
 
     #Location of nuget feed
-    #see build.settings.ps1 : $PublishRepository
-    $MyGetPublishUri = 'https://www.myget.org/F/ottomatt/api/v2/package'
-    $MyGetSourceUri = 'https://www.myget.org/F/ottomatt/api/v2'
-
-    $DEV_MyGetPublishUri = 'https://www.myget.org/F/devottomatt/api/v2/package'
-    $DEV_MyGetSourceUri = 'https://www.myget.org/F/devottomatt/api/v2'
-
+    $Repositories=@(
+      [PsCustomObject]@{
+          name='OttoMatt'
+          publishlocation='https://www.myget.org/F/ottomatt/api/v2/package'
+          sourcelocation='https://www.myget.org/F/ottomatt/api/v2'
+      },
+      [PsCustomObject]@{
+          name='DevOttoMatt'
+          publishlocation='https://www.myget.org/F/devottomatt/api/v2/package'
+          sourcelocation='https://www.myget.org/F/devottomatt/api/v2'
+      }
+    )
 
     #Common modules
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
@@ -32,88 +33,4 @@ Properties {
        Modules=@('Log4Posh','MeasureLocalizedData','PowerShell-Beautifier','Template','OptimizationRules','ParameterSetRules')
        Scripts=@('Lock-File', 'Using-Culture')
      }
-}
-
-###############################################################################
-# Customize these tasks for performing operations before and/or after file staging.
-###############################################################################
-
-# Executes before the StageFiles task.
-Task BeforeStageFiles {
-}
-
-# Executes after the StageFiles task.
-Task AfterStageFiles {
-}
-
-###############################################################################
-# Customize these tasks for performing operations before and/or after Build.
-###############################################################################
-
-# Executes before the BeforeStageFiles phase of the Build task.
-Task BeforeBuild {
-}
-
-# Executes after the Build task.
-Task AfterBuild {
-}
-
-###############################################################################
-# Customize these tasks for performing operations before and/or after BuildHelp.
-###############################################################################
-
-# Executes before the BuildHelp task.
-Task BeforeBuildHelp {
-}
-
-# Executes after the BuildHelp task.
-Task AfterBuildHelp {
-}
-
-###############################################################################
-# Customize these tasks for performing operations before and/or after BuildUpdatableHelp.
-###############################################################################
-
-# Executes before the BuildUpdatableHelp task.
-Task BeforeBuildUpdatableHelp {
-}
-
-# Executes after the BuildUpdatableHelp task.
-Task AfterBuildUpdatableHelp {
-}
-
-###############################################################################
-# Customize these tasks for performing operations before and/or after GenerateFileCatalog.
-###############################################################################
-
-# Executes before the GenerateFileCatalog task.
-Task BeforeGenerateFileCatalog {
-}
-
-# Executes after the GenerateFileCatalog task.
-Task AfterGenerateFileCatalog {
-}
-
-###############################################################################
-# Customize these tasks for performing operations before and/or after Install.
-###############################################################################
-
-# Executes before the Install task.
-Task BeforeInstall {
-}
-
-# Executes after the Install task.
-Task AfterInstall {
-}
-
-###############################################################################
-# Customize these tasks for performing operations before and/or after Publish.
-###############################################################################
-
-# Executes before the Publish task.
-Task BeforePublish {
-}
-
-# Executes after the Publish task.
-Task AfterPublish {
 }

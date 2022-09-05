@@ -10,45 +10,45 @@ Task default -Depends Install,Update
 Task Install -Depends RegisterPSRepository -Precondition { $Mode -eq  'Install'}  {
 
   #Suppose : PowershellGet à jour
-
-   #On précise le repository car Pester est également sur Nuget
-  Write-Host "PSGallery"
-  $PSGallery.Modules |% {
-    Write-Host "Install module $_"
+  #On précise le repository car Pester est également sur Nuget
+  $PSGallery.Modules |ForEach-Object {
+    Write-Host "PSGallery : Install module $_"
     PowershellGet\Install-Module -Name $_ -Repository PSGallery -Scope $InstallationScope  -SkipPublisherCheck -AllowClobber
   }
 
-  Write-Host "MyGet"
-  $MyGet.Modules  |% {
-    Write-Host "Install module $_"
+  $MyGet.Modules  |ForEach-Object {
+    Write-Host "MyGet :Install module $_"
     PowershellGet\Install-Module -Name $_ -Repository OttoMatt -Scope $InstallationScope -AllowClobber
   }
 }
 
 Task RegisterPSRepository {
- try{
-  Get-PSRepository OttoMatt -EA Stop >$null
- } catch {
-   if ($_.CategoryInfo.Category -ne 'ObjectNotFound')
-   { throw $_ }
-   else
-   {
-     # https://github.com/PowerShell/PowerShellGet/issues/76#issuecomment-275099482
-     Register-PSRepository -Name OttoMatt -SourceLocation $MyGetSourceUri -PublishLocation $MyGetPublishUri `
-                           -ScriptSourceLocation "$MyGetSourceUri\" -ScriptPublishLocation $MyGetSourceUri -InstallationPolicy Trusted
-   }
- }
+  Foreach ($Repository in $Repositories)
+  {
+    $Name=$Repository.Name
+    try{
+        $RepositoryNames.Add($Name) > $Null
+        Get-PSRepository $Name -EA Stop >$null
+    }catch {
+        if ($_.CategoryInfo.Category -ne 'ObjectNotFound')
+        { throw $_ }
+        else
+        {
+          $Parameters=@{
+              Name=$Name
+              SourceLocation=$Repository.SourceLocation
+              PublishLocation=$Repository.PublishLocation
 
- try{
-  Get-PSRepository DevOttoMatt -EA Stop >$null
- } catch {
-   if ($_.CategoryInfo.Category -ne 'ObjectNotFound')
-   { throw $_ }
-   else
-   { Register-PSRepository -Name DevOttoMatt -SourceLocation $DEV_MyGetSourceUri -PublishLocation $DEV_MyGetPublishUri `
-                           -ScriptSourceLocation "$DEV_MyGetSourceUri\" -ScriptPublishLocation $DEV_MyGetPublishUri -InstallationPolicy Trusted
-   }
- }
+              ScriptSourceLocation= "$($Repository.SourceLocation)\"
+              ScriptPublishLocation=$Repository.SourceLocation
+
+              InstallationPolicy='Trusted'
+          }
+          Write-Output "Register repository '$($Repository.Name)'"
+          Register-PSRepository @Parameters
+        }
+    }
+  }
 }
 
 Task Update -Precondition { $Mode -eq 'Update'}  {
