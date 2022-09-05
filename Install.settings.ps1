@@ -9,6 +9,7 @@ Properties {
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
     $isAPPVEYOR = Test-Path env:APPVEYOR
 
+    $InstallationScope='CurrentUser'
 
     #Location of nuget feed
     #see build.settings.ps1 : $PublishRepository

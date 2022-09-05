@@ -15,13 +15,13 @@ Task Install -Depends RegisterPSRepository -Precondition { $Mode -eq  'Install'}
   Write-Host "PSGallery"
   $PSGallery.Modules |% {
     Write-Host "Install module $_"
-    PowershellGet\Install-Module -Name $_ -Repository PSGallery -Scope AllUsers  -SkipPublisherCheck -AllowClobber
+    PowershellGet\Install-Module -Name $_ -Repository PSGallery -Scope $InstallationScope  -SkipPublisherCheck -AllowClobber
   }
 
   Write-Host "MyGet"
   $MyGet.Modules  |% {
     Write-Host "Install module $_"
-    PowershellGet\Install-Module -Name $_ -Repository OttoMatt -Scope AllUsers -AllowClobber
+    PowershellGet\Install-Module -Name $_ -Repository OttoMatt -Scope $InstallationScope -AllowClobber
   }
 }
 
@@ -63,7 +63,7 @@ Task Update -Precondition { $Mode -eq 'Update'}  {
         if ($_.FullyQualifiedErrorId -match ('^ModuleNotInstalledOnThisMachine'))
         {
           Write-Host "`tInstall module $ModuleName"
-          PowershellGet\Install-Module -Name $ModuleName -Repository $CurrentRepository -Scope AllUsers
+          PowershellGet\Install-Module -Name $ModuleName -Repository $CurrentRepository -Scope $InstallationScope
         }
         else
         { throw $_ }
@@ -80,7 +80,7 @@ Task Update -Precondition { $Mode -eq 'Update'}  {
         if ($_.FullyQualifiedErrorId -match ('^ScriptNotInstalledOnThisMachine'))
         {
           Write-Host "`tInstall script $ScriptName"
-          PowershellGet\Install-Script -Name $ScriptName -Repository $CurrentRepository -Scope AllUsers
+          PowershellGet\Install-Script -Name $ScriptName -Repository $CurrentRepository -Scope $InstallationScope
         }
         else
         { throw $_ }

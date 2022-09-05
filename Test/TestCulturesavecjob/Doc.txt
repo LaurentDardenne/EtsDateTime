@@ -1,0 +1,35 @@
+Ayant rencontré un problème lié au formatage de date sur un projet j'ai dû y ajouter une rustine puis la tester avec différentes cultures.
+Du coup comment tester ces cas avec Pester (un même code pour différentes cultures) ? A noter que [url=https://github.com/PowerShell/PowerShell/issues/8786] d'autres rencontrent ce besoin[/url].
+
+On utilisera Pester version 5.2.2.
+
+La première approche est de modifier la culture avec Set-Culture, cela ne fonctionne pas car ce cmdlet modifie la culture au niveau système mais [url=https://github.com/PowerShell/PowerShell/issues/3833]pas pour la session en cours[/url], seulement la prochaine :
+[code]
+Set-Culture 'en-US'
+Get-Culture
+
+#LCID             Name             DisplayName
+#----             ----             -----------
+#1036             fr-FR            Français (France)
+[/code]
+
+Le seconde est d'[url=https://resources.oreilly.com/examples/9780596528492/blob/master/Use-Culture.ps1]utiliser une fonction qui modifie la culture dans le thread actuel[/url], par [url=https://mikefrobbins.com/2015/10/22/using-pester-to-test-powershell-code-with-other-cultures/]exemple.[/url].
+Cette approche fonctionne sous réserve que votre code n'utilise pas Set/Get-Culture mais recherche les informations de culture sur le thread.
+
+Si ce n'est pas notre code et que l'on ne souhaite pas tout recoder car on ne connait pas les impacts des modifications ou que leurs prix en dissuadent qq uns, on doit trouver une autre solution.
+
+On peut également considérer du code qui soit pour la v5.1 et le v7. A partir de ps v7.0 [url=https://github.com/PowerShell/PowerShell/pull/10138]$PSCulture suit la valeur de CurrentThread.CurrentCulture[/url].
+
+Dans mon cas j'ai utilisé des jobs pour configurer chaque culture à tester, les jobs étant exécutés via Pester dans lequel on teste le résultat d'exécution du job.
+
+
+Note:
+Mon problème d'origine est que le code à maintenir a été conçu pour des postes ayant la culture Fr par défaut*, si un poste avait une culture US ou une culture ayant un format de date différent de 'Jour/mois/Année' certaines appels échouaient à cause d'un format de date inadapté.
+La solution citée ici est dans l'usage du job pas dans la résolution d'une conversion à partir de n'importe quel format de date.
+Par exemple l'ajout de la culture Japonaise ('ja-JP') ou Chinoise ('zh-CN') provoquera des erreurs, car ces cultures utilisent le format de date YYYY/MM/DD :
+[code]
+([System.Globalization.CultureInfo]'ja-JP').DateTimeFormat.ShortDatePattern
+[/code]
+
+* tout en sachant que les dates sont enregistrées dans une base de données au format Français dans le type String et pas Datetime...
+
