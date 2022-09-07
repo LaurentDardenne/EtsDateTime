@@ -53,7 +53,30 @@ task CoreStageFiles {
 task Build Init, Clean, BeforeBuild, StageFiles, Analyze, BuildHelp, AfterBuild, {
 }
 
-task Analyze StageFiles, {
+task Actionlint {
+# Linting all workflow files only in  .\.github\workflows directory
+
+ if (Get-Command gh.exe)
+ {
+    $isActionLintExist=(gh extension list|Where-Object {$_ -match 'actionlint'}|Select-Object -first 1) -ne $null
+    if (-not $isActionLintExist)
+    { Throw "Github Cli: 'actionlint' extension not found. Use : gh extension install cschleiden/gh-actionlint"}
+
+    $ActionLintErrors=gh actionlint -format '{{json .}}'|ConvertFrom-Json
+    $ExitCode=$LastExitCode
+    if ($ExitCode -ne 0)
+    {
+      $ErrorFiles=$ActionLintErrors|Group-Object filepath
+      $ofs=' , '
+      gh actionlint
+      Throw "One or more Github Action lint errors were found : $($ErrorFiles.Name). Build cannot continue."
+    }
+ }
+ else
+ { Throw 'gh.exe (Github Cli) not found. See https://cli.github.com/'}
+}
+
+task Analyze StageFiles, ActionLint, {
     if (!$ScriptAnalysisEnabled) {
         "Script analysis is not enabled. Skipping $($Task.Name) task."
         return
