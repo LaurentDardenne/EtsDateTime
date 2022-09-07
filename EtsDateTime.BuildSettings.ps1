@@ -175,6 +175,27 @@ $CodeCoverageEnabled = $false
 $CodeCoverageFiles = "$SrcRootDir\*.ps1", "$SrcRootDir\*.psm1"
 
 
+# -------------------- Publishing properties ------------------------------
+
+# Your NuGet API key for the nuget feed (PSGallery, Myget, Private).  Leave it as $null and the first time you publish,
+# you will be prompted to enter your API key.  The build will store the key encrypted in the
+# $NuGetApiKeyPath file, so that on subsequent publishes you will no longer be prompted for the API key.
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
+$NuGetApiKey = $null
+
+# Name of the repository you wish to publish to.
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
+$PublishRepository = $RepositoryName #todo Scope Invokebuild
+
+# Name of the repository for the development version
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
+$Dev_PublishRepository = 'DevOttoMatt'
+
+# Path to the release notes file.  Set to $null if the release notes reside in the manifest file.
+# The contents of this file are used during publishing for the ReleaseNotes parameter.
+[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
+$ReleaseNotesPath = "$PSScriptRoot\ChangeLog.md"
+
 # ----------------------- Misc properties ---------------------------------
 
 # Specifies an output file path to send to Invoke-Pester's -OutputFile parameter.
