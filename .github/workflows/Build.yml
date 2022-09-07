@@ -82,3 +82,4 @@ jobs:
         shell: powershell
         run: |
           Publish-Module -Path ${{ github.workspace }}/Release/EtsDateTime -Repository 'DevOttoMatt' -NuGetApiKey $env:MYGET -Verbose
+          Write-warning "Feed : https://www.myget.org/gallery/devottomatt"
