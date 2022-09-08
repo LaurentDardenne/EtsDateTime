@@ -198,3 +198,44 @@ Task GenerateHelpFiles {
                          -ErrorAction SilentlyContinue -Verbose:($VerbosePreference -eq 'Continue') > $null
     }
 }
+
+Task Publish Build, Test, BuildHelp, BeforePublish, CorePublish, AfterPublish, {
+}
+
+Task CorePublish  {
+    Write-Host "Published on the repository  : '$PublishRepository'"
+    Write-host "ApiKey for the configuration : '$BuildConfiguration'"
+
+    if ($BuildConfiguration -eq 'Debug')
+    {
+        if (Test-path Env:MYGET)
+        { $NuGetApiKey= $Env:MYGET }
+        else
+        { throw "The variable 'Env:Myget' dont exist."}
+    }
+    else
+    {
+        if (Test-path Env:PSGALLERY)
+        { $NuGetApiKey= $Env:PSGALLERY }
+        else
+        { throw "The variable 'Env:PSGALLERY' dont exist."}
+    }
+
+    $publishParams = @{
+        Path        = $ModuleOutDir
+        NuGetApiKey = $NuGetApiKey
+    }
+
+    # If an alternate repository is specified, set the appropriate parameter.
+    if ($PublishRepository) {
+        $publishParams['Repository'] = $PublishRepository
+    }
+
+    # Consider not using -ReleaseNotes parameter when Update-ModuleManifest has been fixed.
+    if ($ReleaseNotesPath) {
+        $publishParams['ReleaseNotes'] = @(Get-Content $ReleaseNotesPath)
+    }
+
+    "Calling Publish-Module..."
+    Publish-Module @publishParams
+}

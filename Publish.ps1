@@ -23,7 +23,7 @@ Invoke-PSake $PSScriptRoot\build.psake.ps1 -taskList Publish -parameters @{"Repo
 
 <#
 # Executes before the Publish task.
-Task BeforePublish -requiredVariables Projectname, OutDir, ModuleName, PublishRepository, Dev_PublishRepository {
+Task BeforePublish  {
     $ManifestPath="$OutDir\$ModuleName\$ModuleName.psd1"
     if ( (-not [string]::IsNullOrWhiteSpace($Dev_PublishRepository)) -and ($PublishRepository -eq $Dev_PublishRepository ))
     {
@@ -44,4 +44,18 @@ Task BeforePublish -requiredVariables Projectname, OutDir, ModuleName, PublishRe
         }
     }
 }
+
+
+-----
+    Write-Host "Call Publish task. Target '$Env:MY_APPVEYOR_GalleryName'"
+    #$testResultsFile = Join-Path $pwd -ChildPath "TestResults.xml"
+
+    If ($Env:MY_APPVEYOR_GalleryName -eq 'DevMyGet')
+    { $RepositoryName='DevOttoMatt' }
+    elseIf ($Env:MY_APPVEYOR_GalleryName -eq 'MyGet')
+    { $RepositoryName='OttoMatt' }
+
+    #Invoke-PSake .\build.psake.ps1 -taskList Publish -parameters @{"TestOutputFile"=$testResultsFile;"RepositoryName"=$RepositoryName}
+    Invoke-PSake .\build.psake.ps1 -taskList Publish -parameters @{"RepositoryName"=$RepositoryName}
+----
 #>

@@ -1,5 +1,18 @@
 ﻿param()
 
+Function Test-CIEnvironment {
+ return (Test-Path env:CI)
+}
+
+Function Get-ApiKeyIntoCI {
+   Write-host "ApiKey for the configuration : '$BuildConfiguration'"
+
+   if ($BuildConfiguration -eq 'Debug')
+   { return $Env:MYGET }
+   else
+   { return $Env:PSGALLERY }
+}
+
 function newDirectory {
    param (
         [Parameter(Mandatory,ValueFromPipeline)]
@@ -84,6 +97,135 @@ function Test-BOMFile{
         }|
         #PS v2 bug with Big Endian
         Where-Object {($_.Encoding -ne "UTF8Encoding") -or ($_.Endian -eq "Big")}
+}
+
+Function Read-ModuleDependency {
+#Reads a module manifest and returns the contents of the RequiredModules key.
+    Param (
+        [Parameter(Mandatory = $true)]
+        $Data,
+
+        [switch] $AsHashTable,
+
+        [switch] $AsModuleSpecification
+    )
+
+    try {
+       $ErrorActionPreference='Stop'
+       $Manifest=Import-ManifestData $Data
+    } catch {
+       throw (New-Object System.Exception -ArgumentList "Unable to read the manifest $Data",$_.Exception)
+    }
+    if (($Null -eq $Manifest.RequiredModules) -or ($Manifest.RequiredModules.Count -eq 0))
+    { Write-Verbose "RequireModules empty or unknown : $Data" }
+
+    Foreach ($ModuleInfo in $Manifest.RequiredModules)
+    {
+        #Microsoft.PowerShell.Commands.ModuleSpecification : 'RequiredVersion' need PS version 5.0
+        #Instead, one build splatting for Find-Module
+        Write-Debug "$($ModuleInfo|Out-String)"
+        if ($ModuleInfo -is [System.Collections.Hashtable])
+        {
+            $ModuleInfo.Add('Name',$ModuleInfo.ModuleName)
+            $ModuleInfo.Remove('ModuleName')
+            if ($ModuleInfo.Contains('ModuleVersion'))
+            {$ModuleInfo.Add('MinimumVersion',$ModuleInfo.ModuleVersion)}
+            $ModuleInfo.Remove('ModuleVersion')
+            $ModuleInfo.Remove('GUID')
+        }
+        else
+        {
+            $Name,$ModuleInfo=$ModuleInfo,@{}
+            $ModuleInfo.'Name'=$Name
+        }
+        if($AsHashTable)
+        { Write-Output $ModuleInfo }
+        elseif ($AsModuleSpecification)
+        { New-Object -TypeName Microsoft.PowerShell.Commands.ModuleSpecification -ArgumentList $ModuleInfo }
+        else
+        { New-Object PSObject -Property $ModuleInfo }
+    }
+}
+
+Function Find-ExternalModuleDependencies {
+<#
+.SYNOPSIS
+Determines, according to the current repository, the dependent external module(s).
+The returned module names can be inserted into the 'ExternalModuleDependencies' key of a module manifest.
+When a module depends on another module, PSGet expects to find it in the same repository, but if we publish a module in a dev repository the way of accessing dependencies changes.
+To fix this we need to rewrite the manifest keys.
+.EXAMPLE
+        $ManifestPath='.\OptimizationRules.psd1'
+        $ModuleNames=Read-ModuleDependency $ManifestPath -AsHashTable
+        $EMD=Find-ExternalModuleDependencies $ModuleNames -Repository $PublishRepository
+#>
+      Param(
+          [ValidateNotNullOrEmpty()]
+         [System.Collections.Hashtable[]] $ModuleSpecification,
+
+           [ValidateNotNullOrEmpty()]
+         [String] $Repository
+    )
+
+     [System.Collections.Hashtable[]] $Modules=$ModuleSpecification|ForEach-Object {$_.Clone()}
+
+<#
+En cas d'erreur de module introuvable, Find-Module ne propose pas son nom dans une propriété de l'exception levée,
+on les traite donc un par un.
+
+Note :
+La recherche ne peut se faire sur le GUID (FQN) mais uniquement sur le nom ET un numéro de version.
+Il existe donc un risque minime de collision entre 2 repositories.
+
+Scénario :
+On suppose que les versions de production d'un module ne sont pas dispatchées entre les repositories
+PSGallery : Repository principal de production. Il est toujours déclaré.
+MyGet     : Repository secondaire de production public ou privé. Déclaré selon les besoins.
+DEVMyGet  : Repository secondaire de test public ou privé. Il devrait toujours être déclaré :
+                Validation de la chaîne de publication, test d'intégration.
+
+Seul les modules requis (RequiredModule) qui ne sont pas external sont installés implicitement par Install-Module,
+ceux indiqués external (ExternalModuleDependencies) doivent l'être explicitement.
+Dans Powershell une dépendances externe de module ne précise pas le repository cible, mais indique que la dépendance est dans un autre repository.
+
+Si on ne précise pas le paramètre -Repository avec Install-Module, Powershell installera le premier repository hébergeant le nom du module
+répondant aux critéres de recherche.
+
+
+Si aucun module ne correspond aux critéres de recherche portant sur une version, Find-Module ne renvoit rien.
+On ne sait donc pas différencier le cas où d'autres versions existent mais pas celle demandée et le cas où aucune version du module existe dans le repository.
+(Elle peut exister mais ailleurs). Le module sera alors considéré comme externe.
+
+Update-ModuleManifest ne complète pas le contenu de la clé -ExternalModuleDependencies mais remplace le contenu existant.
+#>
+
+    $EMD=@(
+        Foreach ($Module in $Modules) {
+            try {
+                Write-Verbose  "Find-ExternalModuleDependencies : $($Module|Out-String)"
+                $Module.Add('Repository',$Repository)
+
+                Find-Module @Module -EA Stop > $null
+            } catch {
+                Write-Debug "Not found : $($Params|Out-String)"
+                if (($_.CategoryInfo -match '^ObjectNotFound') -and ($_.FullyQualifiedErrorId -match '^NoMatchFoundForCriteria') )
+                {
+                    #Insert into ExternalModuleDependencies
+                   Write-Output $Module.Name
+                }
+                else
+                {throw $_}
+            }
+         }
+     )
+     if ($EMD.Count -ne 0)
+     {
+        #New-ModuleManifest -PrivateData @{ PSData = @{ ExternalModuleDependencies = @('ModuleName') } }
+       if ($EMD.Count -eq 1)
+       { $EMD +=$EMD[0] }
+       Write-Verbose "ExternalModuleDependencies : $EMD"
+       Return $EMD
+     }
 }
 
 # ----------------------- Misc configuration properties ---------------------------------
@@ -298,17 +440,17 @@ task TestBOM -If { $isTestBom } {
 }
 
 task TestLocalizedData -If { return $false } {
-    # Import-module MeasureLocalizedData
+    Import-module MeasureLocalizedData
 
-    # if ($null -eq $LocalizedDataFunctions)
-    # {$Result = $CulturesLocalizedData|Measure-ImportLocalizedData -Primary $LocalizedDataModule }
-    # else
-    # {$Result = $CulturesLocalizedData|Measure-ImportLocalizedData -Primary $LocalizedDataModule -Secondary $LocalizedDataFunctions}
-    # if ($Result.Count -ne 0)
-    # {
-    #   $Result
-    #   throw 'One or more MeasureLocalizedData errors were found. Build cannot continue!'
-    # }
+    if ($null -eq $LocalizedDataFunctions)
+    {$Result = $CulturesLocalizedData|Measure-ImportLocalizedData -Primary $LocalizedDataModule }
+    else
+    {$Result = $CulturesLocalizedData|Measure-ImportLocalizedData -Primary $LocalizedDataModule -Secondary $LocalizedDataFunctions}
+    if ($Result.Count -ne 0)
+    {
+      $Result
+      throw 'One or more MeasureLocalizedData errors were found. Build cannot continue!'
+    }
 }
 
 # Executes after the StageFiles task.
@@ -365,4 +507,49 @@ Task BeforeBuildHelp {
 
 # Executes after the BuildHelp task.
 Task AfterBuildHelp {
+}
+
+###############################################################################
+# Customize these tasks for performing operations before and/or after Publish.
+###############################################################################
+
+# Executes before the Publish task.
+Task BeforePublish {
+
+   $ManifestPath="$OutDir\$ModuleName\$ModuleName.psd1"
+   if ( (-not [string]::IsNullOrWhiteSpace($Dev_PublishRepository)) -and ($PublishRepository -eq $Dev_PublishRepository ))
+   {
+       #Increment  the module version for dev repository only
+       Import-Module BuildHelpers
+       $SourceLocation=(Get-PSRepository -Name $PublishRepository).SourceLocation
+       Write-Host "Get the latest version for '$ProjectName' in '$SourceLocation'"
+       $Version = Get-NextNugetPackageVersion -Name $ProjectName -PackageSourceUrl $SourceLocation
+
+       $ModuleVersion=(Test-ModuleManifest -path $ManifestPath).Version
+       # If no version exists, take the current version
+       $isGreater=$Version -gt $ModuleVersion
+       Write-Host "Update the module metadata '$ManifestPath' [$ModuleVersion] ? $isGreater "
+       if ($isGreater)
+       {
+          Write-Host "with the new version : $version"
+          Update-Metadata -Path $ManifestPath  -PropertyName ModuleVersion -Value $Version
+       }
+       #If we publish in a dev repository we must adapt the declarations of dependencies.
+       #To simplify, you can also use a prerelease semver...
+       $ModuleNames=Read-ModuleDependency $ManifestPath -AsHashTable
+         #ExternalModuleDependencies
+       if ($null -ne $ModuleNames)
+       {
+          $EMD=Find-ExternalModuleDependencies $ModuleNames -Repository $PublishRepository
+          if ($null -ne $EMD)
+          {
+             Write-host "Update ExternalModuleDependencies with $($EMD.Name) in '$ManifestPath'"
+             Update-ModuleManifest -path $ManifestPath -ExternalModuleDependencies $EMD
+          }
+       }
+   }
+}
+
+# Executes after the Publish task.
+Task AfterPublish {
 }
