@@ -60,13 +60,16 @@ jobs:
         id: psmodulecache
         uses: LaurentDardenne/psmodulecache@v5.0.0-rc
         with:
-          modules-to-cache: InvokeBuild::, platyPS::, PowerShell-Beautifier,MeasureLocalizedData,Template,OptimizationRules,ParameterSetRules
+          modules-to-cache: InvokeBuild::, platyPS::,BuildHelpers, PowerShell-Beautifier,MeasureLocalizedData,Template,OptimizationRules,ParameterSetRules
           shell: powershell
           updatable: "true"
           prefixidentifier: "true"
 
       - name: Invoke build - mode 'Debug' for 'Dev' environment
         shell: powershell
+        env:
+            MYGET: ${{ secrets.MYGET }}
+            PSGALLERY: ${{ secrets.PSGALLERY }}
         run: |
             .\Build.ps1
 
