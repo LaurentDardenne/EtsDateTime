@@ -11,51 +11,7 @@
      [Parameter(ParameterSetName='PowershellGallery')]
     [switch] $PSGallery
  )
-$Repositories=@{
- 'PowershellGallery'='PSGallery'
- 'MyGet'='OttoMatt'
- 'Dev'='DevOttoMatt'
-}
 
 $Repositories.$($PsCmdlet.ParameterSetName)
 # Builds the module by invoking psake on the build.psake.ps1 script.
 Invoke-PSake $PSScriptRoot\build.psake.ps1 -taskList Publish -parameters @{"RepositoryName"=$Repositories.$($PsCmdlet.ParameterSetName)}
-
-<#
-# Executes before the Publish task.
-Task BeforePublish  {
-    $ManifestPath="$OutDir\$ModuleName\$ModuleName.psd1"
-    if ( (-not [string]::IsNullOrWhiteSpace($Dev_PublishRepository)) -and ($PublishRepository -eq $Dev_PublishRepository ))
-    {
-        #Increment the module version for dev repository only
-        Import-Module BuildHelpers
-        $SourceLocation=(Get-PSRepository -Name $PublishRepository).SourceLocation
-        Write-host "Get the latest version for '$ProjectName' in '$SourceLocation'"
-        $Version = Get-NextNugetPackageVersion -Name $ProjectName -PackageSourceUrl $SourceLocation
-
-        $ModuleVersion=(Test-ModuleManifest -path $ManifestPath).Version
-        # If no version exists, take the current version
-        $isGreater=$Version -gt $ModuleVersion
-        Write-host "Update the module metadata '$ManifestPath' [$ModuleVersion] ? $isGreater "
-        if ($isGreater)
-        {
-           "with the new version : $version"
-           Update-Metadata -Path $ManifestPath  -PropertyName ModuleVersion -Value $Version
-        }
-    }
-}
-
-
------
-    Write-Host "Call Publish task. Target '$Env:MY_APPVEYOR_GalleryName'"
-    #$testResultsFile = Join-Path $pwd -ChildPath "TestResults.xml"
-
-    If ($Env:MY_APPVEYOR_GalleryName -eq 'DevMyGet')
-    { $RepositoryName='DevOttoMatt' }
-    elseIf ($Env:MY_APPVEYOR_GalleryName -eq 'MyGet')
-    { $RepositoryName='OttoMatt' }
-
-    #Invoke-PSake .\build.psake.ps1 -taskList Publish -parameters @{"TestOutputFile"=$testResultsFile;"RepositoryName"=$RepositoryName}
-    Invoke-PSake .\build.psake.ps1 -taskList Publish -parameters @{"RepositoryName"=$RepositoryName}
-----
-#>

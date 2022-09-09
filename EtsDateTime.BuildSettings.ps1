@@ -1,16 +1,45 @@
-﻿param()
+﻿param(
+    [ValidateSet('Release','Debug')]
+    [string] $Configuration,
 
-Function Test-CIEnvironment {
- return (Test-Path env:CI)
+     [ValidateSet('Dev','Prod')]
+    [string] $Environnement
+)
+
+Function Test-Requisite {
+ param (
+   [string] $Environnement
+ )
+    if ($Environnement -eq 'Dev')
+    {
+        if (Test-path Env:MYGET)
+        {
+            $NuGetApiKey = $Env:MYGET
+            $NuGetApiKey > $null
+        }
+        else
+        { throw "The variable 'Env:Myget' don't exist."}
+    }
+    else
+    {
+        if (Test-path Env:PSGALLERY)
+        { $NuGetApiKey = $Env:PSGALLERY }
+        else
+        { throw "The variable 'Env:PSGALLERY' don't exist."}
+    }
+
 }
+Test-Requisite -Environnement $Environnement
 
-Function Get-ApiKeyIntoCI {
-   Write-host "ApiKey for the configuration : '$BuildConfiguration'"
-
-   if ($BuildConfiguration -eq 'Debug')
-   { return $Env:MYGET }
+Function Get-RepositoryName{
+   param(
+      [string] $Configuration
+   )
+    #todo if ($Environnement -eq 'Prod') {$RepositoryName='PSGallery' }
+   if ($Configuration -eq 'Release')
+   { Return 'OttoMatt' }
    else
-   { return $Env:PSGALLERY }
+   { Return 'DevOttoMatt' }
 }
 
 function newDirectory {
@@ -97,6 +126,17 @@ function Test-BOMFile{
         }|
         #PS v2 bug with Big Endian
         Where-Object {($_.Encoding -ne "UTF8Encoding") -or ($_.Endian -eq "Big")}
+}
+
+function Import-ManifestData {
+#Read a .psd1 into a hashtable
+  [CmdletBinding()]
+ Param (
+     [Parameter(Mandatory = $true)]
+     [Microsoft.PowerShell.DesiredStateConfiguration.ArgumentToConfigurationDataTransformation()]
+    $Data
+  )
+ return $Data
 }
 
 Function Read-ModuleDependency {
@@ -231,12 +271,6 @@ Update-ModuleManifest ne complète pas le contenu de la clé -ExternalModuleDepe
 # ----------------------- Misc configuration properties ---------------------------------
 # Created by Keith Hill : https://github.com/PowerShellOrg/Plaster/blob/master/build.psake.ps1
 
-# Used by Edit-Template inside the 'RemoveConditionnal' task.
-# Valid values are 'Debug' or 'Release'
-# 'Release' : Remove the debugging/trace lines, include file, expand scriptblock, clean all directives
-# 'Debug' : Do not change anything
-[System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-[ValidateSet('Release','Debug')]  $BuildConfiguration='Release'
 
 # ----------------------- Basic properties --------------------------------
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
@@ -327,7 +361,7 @@ $NuGetApiKey = $null
 
 # Name of the repository you wish to publish to.
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
-$PublishRepository = $RepositoryName #todo Scope Invokebuild
+$PublishRepository = Get-RepositoryName -Configuration $Configuration
 
 # Name of the repository for the development version
 [System.Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssigments', '')]
@@ -361,21 +395,24 @@ $isTestBom=$true
 
 task RemoveConditionnal -If { return $false } {
 #Process pseudo conditional parsing directives
+# 'Release' : Remove the debugging/trace lines, include file, expand scriptblock, clean all directives
+# 'Debug' : Do not change anything
+
 #  #-Force reload the ScriptToProcess
 #  Import-Module Template -Force
 
 #  try {
 #    $TempDirectory=New-TemporaryDirectory
-#    $ModuleOutDir="$OutDir\$ModuleName"
+#    $ModuleOutDir="$OutDir\$$ProjectName"
 
-#    Write-Verbose "Build with '$BuildConfiguration'"
-#    Get-ChildItem  "$SrcRootDir\$ModuleName.psm1","$SrcRootDir\$ModuleName.psd1"|
+#    Write-Verbose "Build with '$Configuration'"
+#    Get-ChildItem  "$SrcRootDir\$ProjectName.psm1","$SrcRootDir\$ProjectName.psd1"|
 #     Foreach-Object {
 #       $Source=$_
 #       $TempFileName="$TempDirectory\$($Source.Name)"
 #       Write-Verbose "Edit : $($Source.FullName)"
 #       Write-Verbose " to  : $TempFileName"
-#       if ($BuildConfiguration -eq 'Release')
+#       if ($Configuration -eq 'Release')
 #       {
 
 #          #Transforms %Scriptblock% directives
@@ -393,7 +430,7 @@ task RemoveConditionnal -If { return $false } {
 #            Edit-Template -Clean|
 #            Set-Content -Path $TempFileName -Force -Encoding UTF8 -verbose:($VerbosePreference -eq 'Continue')
 #       }
-#       elseif ($BuildConfiguration -eq 'Debug')
+#       elseif ($Configuration -eq 'Debug')
 #       {
 #           #We don't process any directives and we don't delete anything.
 #           #Only include files.
@@ -408,7 +445,7 @@ task RemoveConditionnal -If { return $false } {
 #            Set-Content -Path $TempFileName -Force -Encoding UTF8 -verbose:($VerbosePreference -eq 'Continue')
 #       }
 #       else
-#       { throw "Invalid configuration name '$BuildConfiguration'" }
+#       { throw "Invalid configuration name '$Configuration'" }
 #      Copy-Item -Path $TempFileName -Destination $ModuleOutDir -Recurse -Verbose:($VerbosePreference -eq 'Continue') -EA Stop
 #     }#foreach
 #   } finally {
@@ -516,7 +553,7 @@ Task AfterBuildHelp {
 # Executes before the Publish task.
 Task BeforePublish {
 
-   $ManifestPath="$OutDir\$ModuleName\$ModuleName.psd1"
+   $ManifestPath="$OutDir\$ProjectName\$ProjectName.psd1"
    if ( (-not [string]::IsNullOrWhiteSpace($Dev_PublishRepository)) -and ($PublishRepository -eq $Dev_PublishRepository ))
    {
        #Increment  the module version for dev repository only

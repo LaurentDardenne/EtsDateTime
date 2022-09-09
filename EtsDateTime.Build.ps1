@@ -8,7 +8,10 @@
 #>
 [CmdletBinding()]
 param(
+     [ValidateSet('Release','Debug')]
     [string] $Configuration,
+
+     [ValidateSet('Dev','Prod')]
     [string] $Environnement
 )
 
@@ -19,7 +22,7 @@ if ($PSBoundParameters.ContainsKey('Verbose'))
 if ($PSBoundParameters.ContainsKey('Debug'))
 { $DebugPreference = "Continue" }
 
-. $PSScriptRoot\EtsDatetime.BuildSettings.ps1
+. $PSScriptRoot\EtsDatetime.BuildSettings.ps1 @PSBoundParameters
 
 ###############################################################################
 # Core task implementations. Avoid modifying these tasks.
@@ -124,7 +127,8 @@ task CoreInstall {
     "Module installed into $InstallPath"
 }
 
-task Test Build, {
+task Test -If { return $false } Build, {
+ #todo
     if (!(Get-Module Pester -ListAvailable)) {
         "Pester module is not installed. Skipping $($Task.Name) task."
         return
@@ -203,23 +207,8 @@ Task Publish Build, Test, BuildHelp, BeforePublish, CorePublish, AfterPublish, {
 }
 
 Task CorePublish  {
+    . Test-Requisite -Environnement $Environnement
     Write-Host "Published on the repository  : '$PublishRepository'"
-    Write-host "ApiKey for the configuration : '$BuildConfiguration'"
-
-    if ($BuildConfiguration -eq 'Debug')
-    {
-        if (Test-path Env:MYGET)
-        { $NuGetApiKey= $Env:MYGET }
-        else
-        { throw "The variable 'Env:Myget' dont exist."}
-    }
-    else
-    {
-        if (Test-path Env:PSGALLERY)
-        { $NuGetApiKey= $Env:PSGALLERY }
-        else
-        { throw "The variable 'Env:PSGALLERY' dont exist."}
-    }
 
     $publishParams = @{
         Path        = $ModuleOutDir
