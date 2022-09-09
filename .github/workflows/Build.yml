@@ -2,6 +2,16 @@ name: CI
 
 on:
   workflow_dispatch:
+    inputs:
+      Environment:
+        description: 'Targeted environment ype of build : Prod or Dev (default)'
+        required: true
+        default: 'Dev'
+      Configuration:
+        description: 'Type of build : Release or Debug (default)'
+        required: true
+        default: 'Debug'
+
 
 jobs:
  Build-EtsDateTime-for-powershell-v5-1:
@@ -71,7 +81,7 @@ jobs:
             MYGET: ${{ secrets.MYGET }}
             PSGALLERY: ${{ secrets.PSGALLERY }}
         run: |
-            .\Build.ps1
+            .\Build.ps1 -Environnement ${{ github.event.inputs.Environment }} -Release:$('${{ github.event.inputs.Configuration }}' -eq 'Release')
 
       # - name: Upload a Build Artifact
       #   uses: actions/upload-artifact@v3.1.0
