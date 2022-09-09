@@ -11,7 +11,8 @@ on:
         description: 'Type of build : Release or Debug (default)'
         required: true
         default: 'Debug'
-
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
  Build-EtsDateTime-for-powershell-v5-1:
@@ -30,8 +31,6 @@ jobs:
       - uses: actions/checkout@v3
       - name : Add 'actionlint' extension for Github Cli
         shell: powershell
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh extension install cschleiden/gh-actionlint
 
