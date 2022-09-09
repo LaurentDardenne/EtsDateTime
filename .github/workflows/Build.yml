@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       Environment:
-        description: 'Targeted environment ype of build : Prod or Dev (default)'
+        description: 'Targeted environment : Prod or Dev (default)'
         required: true
         default: 'Dev'
       Configuration:
