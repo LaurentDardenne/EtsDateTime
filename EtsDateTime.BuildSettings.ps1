@@ -22,6 +22,8 @@ Function Test-Requisite {
     }
     else
     {
+        #todo publish à part
+        throw "Environnement:'$Environnement' not implemented."
         if (Test-path Env:PSGALLERY)
         { $NuGetApiKey = $Env:PSGALLERY }
         else
@@ -554,9 +556,10 @@ Task AfterBuildHelp {
 Task BeforePublish {
 
    $ManifestPath="$OutDir\$ProjectName\$ProjectName.psd1"
+   "PublishRepository='$PublishRepository'  $Dev_PublishRepository ='$Dev_PublishRepository'"
    if ( (-not [string]::IsNullOrWhiteSpace($Dev_PublishRepository)) -and ($PublishRepository -eq $Dev_PublishRepository ))
    {
-       #Increment  the module version for dev repository only
+       Write-Host "Increment the module version for dev repository only."
        Import-Module BuildHelpers
        $SourceLocation=(Get-PSRepository -Name $PublishRepository).SourceLocation
        Write-Host "Get the latest version for '$ProjectName' in '$SourceLocation'"
@@ -585,6 +588,8 @@ Task BeforePublish {
           }
        }
    }
+   else
+   { Write-Host "Use the version of the manifest." }
 }
 
 # Executes after the Publish task.
