@@ -28,6 +28,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name : Add 'actionlint' extension for Github Cli
+        shell: powershell
+        run: |
+          gh extension install cschleiden/gh-actionlint
+
       - name: Set Required repositories
         shell: powershell
         run: |
