@@ -225,6 +225,6 @@ Task CorePublish  {
         $publishParams['ReleaseNotes'] = @(Get-Content $ReleaseNotesPath)
     }
 
-    "Calling Publish-Module..."
+    "Calling Publish-Module ..."
     Publish-Module @publishParams
 }
