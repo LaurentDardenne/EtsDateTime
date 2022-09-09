@@ -81,13 +81,13 @@ jobs:
           updatable: "true"
           prefixidentifier: "true"
 
-      - name: Invoke build - mode 'Debug' for 'Dev' environment
-        shell: powershell
-        env:
-            MYGET: ${{ secrets.MYGET }}
-            PSGALLERY: ${{ secrets.PSGALLERY }}
-        run: |
-            .\Build.ps1 -Environnement ${{ github.event.inputs.Environment }} -Release:$('${{ github.event.inputs.Configuration }}' -eq 'Release')
+      # - name: Invoke build - mode 'Debug' for 'Dev' environment
+      #   shell: powershell
+      #   env:
+      #       MYGET: ${{ secrets.MYGET }}
+      #       PSGALLERY: ${{ secrets.PSGALLERY }}
+      #   run: |
+      #       .\Build.ps1 -Environnement ${{ github.event.inputs.Environment }} -Release:$('${{ github.event.inputs.Configuration }}' -eq 'Release')
 
       # - name: Upload a Build Artifact
       #   uses: actions/upload-artifact@v3.1.0
@@ -95,10 +95,12 @@ jobs:
       #     name: EtsDateTime
       #     path:  ${{ github.workspace }}/Release/EtsDateTime
 
-      - name: Publish on Myget
+      - name: Invoke build and publish
         env:
           MYGET : ${{ secrets.MYGET }}
+          PSGALLERY : ${{ secrets.PSGALLERY }}
         shell: powershell
         run: |
-          Publish-Module -Path ${{ github.workspace }}/Release/EtsDateTime -Repository 'DevOttoMatt' -NuGetApiKey $env:MYGET -Verbose
+          Invoke-Build -Task Publish -Configuration ${{ github.event.inputs.Configuration }} -Environnement ${{ github.event.inputs.Environment }}
+          #Publish-Module -Path ${{ github.workspace }}/Release/EtsDateTime -Repository 'DevOttoMatt' -NuGetApiKey $env:MYGET -Verbose
           Write-warning "Feed : https://www.myget.org/gallery/devottomatt"
