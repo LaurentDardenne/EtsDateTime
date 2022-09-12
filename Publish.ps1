@@ -1,17 +1,19 @@
-﻿#Requires -Modules psake
- [CmdletBinding(DefaultParameterSetName = 'Dev')]
- Param(
-      #see appveyor.yml
-     [Parameter(ParameterSetName='Myget')]
-    [switch] $MyGet,
+﻿#Requires -Modules InvokeBuild
 
-     [Parameter(ParameterSetName='Dev')]
-    [switch] $Dev,
+[CmdletBinding(DefaultParameterSetName = "Debug")]
+Param(
+    [Parameter(ParameterSetName="Release")]
+  [switch] $Release,
 
-     [Parameter(ParameterSetName='PowershellGallery')]
-    [switch] $PSGallery
+  [switch] $Prod
  )
 
-$Repositories.$($PsCmdlet.ParameterSetName)
-# Builds the module by invoking psake on the build.psake.ps1 script.
-Invoke-PSake $PSScriptRoot\build.psake.ps1 -taskList Publish -parameters @{"RepositoryName"=$Repositories.$($PsCmdlet.ParameterSetName)}
+
+Write-Host "Build and publish the EtsDatetime module."
+$Environnement='Dev'
+if ($Prod)
+{ $Environnement='Prod' }
+
+$local:Verbose=$PSBoundParameters.ContainsKey('Verbose')
+$local:Debug=$($PSBoundParameters.ContainsKey('Debug'))
+Invoke-Build -File "$PSScriptRoot\EtsDatetime.build.ps1" -Task publish -Configuration $PsCmdlet.ParameterSetName -Environnement $Environnement -Verbose:$Verbose -Debug:$Debug
