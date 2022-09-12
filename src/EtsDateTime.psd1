@@ -4,7 +4,7 @@
 # Généré le : 03/06/2017
 
 @{
-  ModuleToProcess="EtsDateTime.psm1"
+  RootModule="EtsDateTime.psm1"
 
   Author="Laurent Dardenne. FluentDateTime authors : Slobodan Pavkov, Tom Pester, Simon Cropp. DateTimeExtensions author : Joao Matos Silva"
   Copyright="http://www.apache.org/licenses/LICENSE-2.0.html"
