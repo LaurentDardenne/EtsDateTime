@@ -17,25 +17,19 @@ env:
 jobs:
  Build-EtsDateTime-for-powershell-v5-1:
     runs-on: windows-latest
-    #defaults:
-      # run: bug de psmodulecache ?
-      #   shell: powershell
-        # env:
-        #   ## Environment variable for step n
-        #   VAR_NAME: XXXXXXXXXXXX
-        # ## Reference your environment variables
-        # run: echo "var :${{env.VAR_NAME}}"
-        # run: echo "The API key is:${{secrets.API_KEY}}"
+    defaults:
+      run:
+        shell: powershell
 
     steps:
       - uses: actions/checkout@v3
       - name : Add 'actionlint' extension for Github Cli
-        shell: powershell
+        #shell: powershell
         run: |
           gh extension install cschleiden/gh-actionlint
 
       - name: Set Required repositories
-        shell: powershell
+        #shell: powershell
         run: |
             $Repositories=@(
               [PsCustomObject]@{
@@ -81,26 +75,11 @@ jobs:
           updatable: "true"
           prefixidentifier: "true"
 
-      # - name: Invoke build - mode 'Debug' for 'Dev' environment
-      #   shell: powershell
-      #   env:
-      #       MYGET: ${{ secrets.MYGET }}
-      #       PSGALLERY: ${{ secrets.PSGALLERY }}
-      #   run: |
-      #       .\Build.ps1 -Environnement ${{ github.event.inputs.Environment }} -Release:$('${{ github.event.inputs.Configuration }}' -eq 'Release')
-
-      # - name: Upload a Build Artifact
-      #   uses: actions/upload-artifact@v3.1.0
-      #   with:
-      #     name: EtsDateTime
-      #     path:  ${{ github.workspace }}/Release/EtsDateTime
-
       - name: Invoke build and publish
         env:
           MYGET : ${{ secrets.MYGET }}
           PSGALLERY : ${{ secrets.PSGALLERY }}
-        shell: powershell
+        #shell: powershell
         run: |
           Invoke-Build -Task Publish -Configuration ${{ github.event.inputs.Configuration }} -Environnement ${{ github.event.inputs.Environment }}
-          #Publish-Module -Path ${{ github.workspace }}/Release/EtsDateTime -Repository 'DevOttoMatt' -NuGetApiKey $env:MYGET -Verbose
           Write-warning "Feed : https://www.myget.org/gallery/devottomatt"
