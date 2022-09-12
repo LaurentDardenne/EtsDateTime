@@ -197,19 +197,19 @@ The returned module names can be inserted into the 'ExternalModuleDependencies' 
 When a module depends on another module, PSGet expects to find it in the same repository, but if we publish a module in a dev repository the way of accessing dependencies changes.
 To fix this we need to rewrite the manifest keys.
 .EXAMPLE
-        $ManifestPath='.\OptimizationRules.psd1'
-        $ModuleNames=Read-ModuleDependency $ManifestPath -AsHashTable
-        $EMD=Find-ExternalModuleDependencies $ModuleNames -Repository $PublishRepository
+    $ManifestPath='.\OptimizationRules.psd1'
+    $ModuleNames=Read-ModuleDependency $ManifestPath -AsHashTable
+    $EMD=Find-ExternalModuleDependencies $ModuleNames -Repository $PublishRepository
 #>
-      Param(
-          [ValidateNotNullOrEmpty()]
-         [System.Collections.Hashtable[]] $ModuleSpecification,
+    Param(
+        [ValidateNotNullOrEmpty()]
+       [System.Collections.Hashtable[]] $ModuleSpecification,
 
-           [ValidateNotNullOrEmpty()]
-         [String] $Repository
+        [ValidateNotNullOrEmpty()]
+       [String] $Repository
     )
 
-     [System.Collections.Hashtable[]] $Modules=$ModuleSpecification|ForEach-Object {$_.Clone()}
+    [System.Collections.Hashtable[]] $Modules=$ModuleSpecification|ForEach-Object {$_.Clone()}
 
 <#
 En cas d'erreur de module introuvable, Find-Module ne propose pas son nom dans une propriété de l'exception levée,
@@ -554,13 +554,22 @@ Task AfterBuildHelp {
 
 # Executes before the Publish task.
 Task BeforePublish {
+<#
+ We use this process to test the following scenario (POC):
+  When publishing a module, two repositories are used.
+  One for dev and one for private production.
+  Crossing repositories impacts the management of Powershell module dependencies.
 
+  When using a single repository, using a prerelease via semver is sufficient.
+#>
    $ManifestPath="$OutDir\$ProjectName\$ProjectName.psd1"
-   "PublishRepository='$PublishRepository'  $Dev_PublishRepository ='$Dev_PublishRepository'"
    if ( (-not [string]::IsNullOrWhiteSpace($Dev_PublishRepository)) -and ($PublishRepository -eq $Dev_PublishRepository ))
    {
+       # We search in a repository ($PublishRepository) for the version number used during the last publication.
+       # We modify the manifest of the dev delivery and not that of the project, so we do not create a Tag in Github for each publication.
        Write-Host "Increment the module version for dev repository only."
        Import-Module BuildHelpers
+
        $SourceLocation=(Get-PSRepository -Name $PublishRepository).SourceLocation
        Write-Host "Get the latest version for '$ProjectName' in '$SourceLocation'"
        $Version = Get-NextNugetPackageVersion -Name $ProjectName -PackageSourceUrl $SourceLocation
@@ -575,7 +584,6 @@ Task BeforePublish {
           Update-Metadata -Path $ManifestPath  -PropertyName ModuleVersion -Value $Version
        }
        #If we publish in a dev repository we must adapt the declarations of dependencies.
-       #To simplify, you can also use a prerelease semver...
        $ModuleNames=Read-ModuleDependency $ManifestPath -AsHashTable
          #ExternalModuleDependencies
        if ($null -ne $ModuleNames)
