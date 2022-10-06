@@ -31,7 +31,7 @@ Function Test-Requisite {
     }
 
 }
-Test-Requisite -Environnement $Environnement
+#todo Test-Requisite -Environnement $Environnement
 
 Function Get-RepositoryName{
    param(

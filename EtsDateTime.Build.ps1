@@ -153,7 +153,7 @@ task Test Build, {
         #     }
         # }
 
-        # # todo To control the Pester code coverage, a boolean $CodeCoverageEnabled is used.
+        # To control the Pester code coverage, a boolean $CodeCoverageEnabled is used.
         # if ($CodeCoverageEnabled) {
         #     $testing.CodeCoverage = $CodeCoverageFiles
         # }
@@ -170,7 +170,6 @@ task Test Build, {
     }
     finally {
         Microsoft.PowerShell.Management\Pop-Location
-        # todo unload DLL: Remove-Module $ModuleName -ErrorAction SilentlyContinue -Force
     }
 }
 
